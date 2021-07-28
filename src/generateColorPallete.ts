@@ -2,10 +2,18 @@ import { Image } from "https://deno.land/x/imagescript/mod.ts";
 import { writeJson } from "https://deno.land/x/jsonfile/mod.ts";
 
 const msPast = Date.now();
-const colorsHex: string[][] = [];
-const colorsRgb: number[][][] = [];
+const colorsHex: { [blockId: number]: string[] } = {};
+const colorsRgb: { [blockId: number]: number[][] } = {};
 
-for(let blockId = 667; blockId <= 667; blockId++) {//682
+function fillHex(hex: string){
+  const need0s = 8 - hex.length;
+  for(let i = 0; i < need0s; i++) {
+    hex = "0" + hex;
+  }
+  return hex;
+}
+
+for(let blockId = 667; blockId <= 682; blockId++) {
   const fifteenColorsHex: string[] = [];
   const fifteenColorsRgb: number[][] = [];
 
@@ -15,10 +23,11 @@ for(let blockId = 667; blockId <= 667; blockId++) {//682
 
     const colorHexDecimal = imageDecoded.averageColor();
     const colorHexWithOpacity = colorHexDecimal.toString(16);
-    const colorHex = colorHexWithOpacity.substr(0, 6);
+    const colorHexWithOpacity8chars = fillHex(colorHexWithOpacity); 
+    const colorHex = colorHexWithOpacity8chars.substr(0, 6);//removendo os 2 últimos chars (ff de opacidade)
 
     const colorRgb: number[] = [];
-    for(let i = 0; i <= 2; i += 2) {
+    for(let i = 0; i <= 4; i += 2) {
       colorRgb[i/2] = parseInt(colorHex.substr(i, 2), 16);
     }
 
