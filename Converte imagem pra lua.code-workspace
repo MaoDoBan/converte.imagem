@@ -8,6 +8,9 @@
     "deno.enable": true,
     "deno.lint": true,
     "deno.unstable": true,
-    "god.tsconfig": "./tsconfig.json"
+    "god.tsconfig": "./tsconfig.json",
+    "deno.suggest.imports.hosts": {
+      "https://deno.land": true
+    }
   }
 }
