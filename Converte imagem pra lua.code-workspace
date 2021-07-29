@@ -11,6 +11,11 @@
     "god.tsconfig": "./tsconfig.json",
     "deno.suggest.imports.hosts": {
       "https://deno.land": true
-    }
+    },
+    "cSpell.words": [
+      "nanda",
+      "play",
+      "sisteminha"
+    ]
   }
 }
