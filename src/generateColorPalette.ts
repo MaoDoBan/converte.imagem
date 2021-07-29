@@ -1,5 +1,5 @@
-import { Image } from "https://deno.land/x/imagescript/mod.ts";
-import { writeJson } from "https://deno.land/x/jsonfile/mod.ts";
+import { Image } from "https://deno.land/x/imagescript@1.2.9/mod.ts";
+import { writeJson } from "https://deno.land/x/jsonfile@1.0.0/mod.ts";
 
 const msPast = Date.now();
 const colorsHex: { [blockId: number]: string[] } = {};
