@@ -1,5 +1,7 @@
 Sisteminha inicialmente só para a NandaPlay usar, que vai converter uma imagem em um script .lua para gerar uma pixel-art dentro do Mini World.
 
+Rodar os .lua: lua public/lua/.lua
+
 Comando pra rodar o generateColorPalette.ts:
 deno run --allow-read --allow-write --allow-net --unstable src/generateColorPalette.ts
 
