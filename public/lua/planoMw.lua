@@ -24,7 +24,6 @@ local validaBloco = function(anteriores, atuais, posicao)
   local md = atualOuAnterior(anteriores.md, atuais[posicao+2]);
 
   anteriores.qt, anteriores.id, anteriores.md = qt, id, md;
-  Chat:sendSystemMsg("vb valores: ".." "..valores[1].." "..valores[2].." "..valores[3]);
 
   if id < 16 then
     id = id + 667;
@@ -42,6 +41,17 @@ local coordenadasInicioLinha = function(anteriores, cooOrigem, cooRelativas)
   return unpack(valores);
 end
 
+local geraLinha = function(anteriores, linha, eixo, x, y, z)
+  for i = 4, #linha, 3 do --um tipo de bloco por vez
+    local quantidade, idBloco, metadata = validaBloco(anteriores, linha, i);
+
+    for _ = 1, quantidade do --coloca no mundo todos os blocos do tipo
+      Block:setBlockAll(x, y, z, idBloco, metadata);
+      x, y, z = proximasCoordenadas(eixo, x, y, z);
+    end
+  end
+end
+
 local geraImagem = function(origem, matriz)
   local eixo = matriz[1];
   local anteriores = {
@@ -49,20 +59,11 @@ local geraImagem = function(origem, matriz)
     qt = 1, id = 667, md = 0
   };
 
-  for i = 2, #matriz do
+  for i = 2, #matriz do --uma linha por vez
     local linha = matriz[i];
     local x, y, z = coordenadasInicioLinha(anteriores, origem, linha);
 
-    Chat:sendSystemMsg("gi #linha: "..#linha);
-    for j = 4, #linha, 3 do
-      local quantidade, idBloco, metadata = validaBloco(anteriores, linha, j);
-      Chat:sendSystemMsg("gi qim: "..quantidade.." "..idBloco.." "..metadata);
-
-      for k = 1, quantidade do
-        Block:setBlockAll(x, y, z, idBloco, metadata);
-        x, y, z = proximasCoordenadas(eixo, x, y, z);
-      end
-    end
+    geraLinha(anteriores, linha, eixo, x, y, z);
   end
 end
 
@@ -77,7 +78,7 @@ local clique = function(evento)
 end
 
 ScriptSupportEvent:registerEvent('Player.ClickBlock', clique);
-  -- TODO: detectar clique de quebrar, segurando ferramenta
+  -- TODO: teleportar o jogador pra uma posição segura
 
 Dados = {
   "x",
@@ -87,10 +88,12 @@ Dados = {
 
 
 -- definindo a estrutura de dados
+--[[
 local blockMatrix = {
   eixo, --: x, y, z, nx, ny, nz
   {x,y,z,qt,blockId,data,qt,blockId,data,qt,blockId,data}
 };
+]]
 -- x, y, z, blockId, data, qt  se "a" então é igual ao anterior --todo: x, y, z ter valor anterior se "a" em coordenadasInicioLinha
 -- blockId vai de 0 a 15, o .lua soma 667
 -- eu poderia usar variáveis de a-z A-Z pra reduzir a contagem de caracteres
