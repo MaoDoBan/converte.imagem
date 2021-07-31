@@ -1,4 +1,4 @@
-import { Distances } from "./Distances.ts";
+import { Distances } from "./Distances.ts";//, Distance
 
 export class Color{
   readonly hex: string;
@@ -33,11 +33,11 @@ export class Color{
     this.distances[hexOtherColor] = distance;
   }
 
-  hasDistanceTo(otherColor: Color){
-    return this.distances[otherColor.hex] !== undefined;
+  hasDistanceTo(otherColorHex: string){
+    return this.distances[otherColorHex] !== undefined;
   }
 
-  calculateDistanceTo(otherColor: Color){
+  calculateDistanceTo(otherColor: Color): number{
     const distanceRed   = this.r - otherColor.r;
     const distanceGreen = this.g - otherColor.g;
     const distanceBlue  = this.b - otherColor.b;
@@ -47,25 +47,57 @@ export class Color{
       distanceBlue  * distanceBlue
     );
   
-    distance = Number(distance.toFixed(4));//reduzindo pra 4 casas decimais
-    this.addDistance(otherColor.hex, distance);
-    otherColor.addDistance(this.hex, distance);
-  
-    return distance.toLocaleString('de-DE');//converte . pra , e deixa só 3 casa decimais depois da ,
+    distance = Number(distance.toFixed(4));//reduzindo pra 4 casas decimais  
+    return distance;
   }
 
-  populateDistances(arrayColors: Color[], distanceLimit = 444): string{
+  static populateDistances(arrayColors: Color[], distanceLimit = 444): string{
+    console.log("Limite "+distanceLimit);
     let stringListOfDistances = "";
     for(const color of arrayColors){
       for(const otherColor of arrayColors){
-        if( color.hasDistanceTo(otherColor) ) continue;
-        stringListOfDistances += color.calculateDistanceTo(otherColor)+"\n";
+        if( color.hasDistanceTo(otherColor.hex) || color.hex === otherColor.hex ) continue;
+        const distance = color.calculateDistanceTo(otherColor);
+        if(distance > distanceLimit) continue;
+        color.addDistance(otherColor.hex, distance);
+        otherColor.addDistance(color.hex, distance);
+        stringListOfDistances += distance.toLocaleString('de-DE')+"\n";//converte . pra , e deixa só 3 casa decimais depois da ,
       }
     }
     return stringListOfDistances;
   }
 
-  // hasDistanceTo(colorHex: string): boolean{
-  //   return this.distances[colorHex] !== undefined;
+  static listHowManyDistances(arrayColors: Color[]): string{
+    let list = "";
+    for(const color of arrayColors){
+      list += color.distances.length+'\n';
+    }
+    return list;
+  }
+
+  // static populateDistances(arrayColors: Color[], distanceLimit = 444): string{
+  //   console.log("Limite "+distanceLimit);
+  //   let stringListOfDistances = "";
+  //   for(const color of arrayColors){
+  //     for(const otherColor of arrayColors){
+  //       if( color.hasDistanceTo(otherColor.hex) || color.hex === otherColor.hex ) continue;
+  //       const distance = color.calculateDistanceTo(otherColor);
+  //       if(distance > distanceLimit) continue;
+  //       color.addDistance(otherColor.hex, distance);
+  //       otherColor.addDistance(color.hex, distance);
+  //       stringListOfDistances += distance.toLocaleString('de-DE')+"\n";//converte . pra , e deixa só 3 casa decimais depois da ,
+  //     }
+  //   }
+  //   return stringListOfDistances;
+  // }
+
+  // getMinDistance(): Distance{
+  //   ;
+  // }
+
+  // static listMinDistances(arrayColors: Color[]): string{
+  //   for(const color of arrayColors){
+  //     list += color.getMinDistance()+'\n';
+  //   }
   // }
 };
