@@ -5,3 +5,5 @@ export class Distances{
     return Object.keys(this).length;
   }
 }
+
+//export type Distance = {hex: string, distance: number};
