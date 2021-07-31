@@ -1,9 +1,30 @@
 import { Image } from "https://deno.land/x/imagescript@1.2.9/mod.ts";
+import { Palette } from "./classes/Palette.ts";
+import { Color } from "./classes/Color.ts";
 
-const fileName = "t3x3";//"maum";
-const rawImage = await Deno.readFile("paleta_cores/"+fileName+".png");
-const imageDecoded = await Image.decode(rawImage);
-console.log(imageDecoded);//.bitmap
+
+const past = Date.now();
+const palette = new Palette();
+console.log("Populou "+palette.length+" Cores!");
+
+const qt = 60;
+const stringDistances = Color.populateDistances( Object.values(palette) as Color[], qt );
+const qtDistances = qt+"\n\n" + Color.listHowManyDistances( Object.values(palette) as Color[] );
+
+console.log("Demorou ms: "+(Date.now()-past));
+const encoder = new TextEncoder();
+const encodedString = encoder.encode(qtDistances);//stringDistances
+await Deno.writeFile("src/colorPalette/limit_qt_distances.txt", encodedString);//distancias
+
+
+console.log("Demorou tudo após salvar ms: "+(Date.now()-past));
+
+
+
+// const fileName = "t3x3";//"maum";
+// const rawImage = await Deno.readFile("paleta_cores/"+fileName+".png");
+// const imageDecoded = await Image.decode(rawImage);
+// console.log(imageDecoded);//.bitmap
 
 
 /*
