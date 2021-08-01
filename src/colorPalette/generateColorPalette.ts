@@ -39,7 +39,7 @@ for(let blockId = 667; blockId <= 682; blockId++) {
   colorsRgb[blockId] = fifteenColorsRgb;
 }
 
-await writeJson("src/colorPalette/paleta_cores_hex.json", colorsHex, {spaces: 2});
-await writeJson("src/colorPalette/paleta_cores_rgb.json", colorsRgb, {spaces: 2});
+await writeJson("src/colorPalette/hexColorPalette.json", colorsHex, {spaces: 2});
+await writeJson("src/colorPalette/rgbColorPalette.json", colorsRgb, {spaces: 2});
 
 console.log("Feito em "+ (Date.now() - msPast) +"ms");
