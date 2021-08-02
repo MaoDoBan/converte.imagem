@@ -13,11 +13,12 @@ export class Color{
     return Number(distance.toFixed(3));//reduzindo pra 3 casas decimais
   }
 
-  static hexToRgb(hex: string){
+  static hexToRgb(hex: string): number[]{
     const colorRgb: number[] = [];
     for(let i = 0; i <= 4; i += 2) {
       colorRgb[i/2] = parseInt(hex.substr(i, 2), 16);
     }
+    return colorRgb;
   }
 
   static rgbToHex(rgb: number[]): string{
