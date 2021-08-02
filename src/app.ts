@@ -1,19 +1,20 @@
 import { Image } from "https://deno.land/x/imagescript@1.2.9/mod.ts";
-// import { Palette } from "./classes/Palette.ts";
+import { Node } from "./classes/Node.ts";
 // import { Color } from "./classes/Color.ts";
 
 
 const past = Date.now();
 
+//const Arvere = new Node();
+console.log(await Node.populateAllNodes());
+console.log(await Node.populateAllNodes());
 
 
 
 
 
 
-
-
-
+console.log("Demorou ms: "+(Date.now()-past));
 
 
 // const palette = new Palette();
@@ -27,8 +28,6 @@ const past = Date.now();
 // const encodedString = encoder.encode(qtDistances);//stringDistances
 // await Deno.writeFile("src/colorPalette/limit_qt_distances.txt", encodedString);//distancias
 
-
-// console.log("Demorou ms: "+(Date.now()-past));
 
 
 
