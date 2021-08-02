@@ -1,22 +1,34 @@
 import { Image } from "https://deno.land/x/imagescript@1.2.9/mod.ts";
-import { Palette } from "./classes/Palette.ts";
-import { Color } from "./classes/Color.ts";
+// import { Palette } from "./classes/Palette.ts";
+// import { Color } from "./classes/Color.ts";
 
 
 const past = Date.now();
-const palette = new Palette();
-console.log("Populou "+palette.length+" Cores!");
-
-const qt = 50;
-const stringDistances = Color.populateDistances( Object.values(palette) as Color[], qt );
-const qtDistances = qt+"\n\n" + Color.listHowManyDistances( Object.values(palette) as Color[] );
-
-const encoder = new TextEncoder();
-const encodedString = encoder.encode(qtDistances);//stringDistances
-await Deno.writeFile("src/colorPalette/limit_qt_distances.txt", encodedString);//distancias
 
 
-console.log("Demorou ms: "+(Date.now()-past));
+
+
+
+
+
+
+
+
+
+
+// const palette = new Palette();
+// console.log("Populou "+palette.length+" Cores!");
+
+// const qt = 50;
+// const stringDistances = Color.populateDistances( Object.values(palette) as Color[], qt );
+// const qtDistances = qt+"\n\n" + Color.listHowManyDistances( Object.values(palette) as Color[] );
+
+// const encoder = new TextEncoder();
+// const encodedString = encoder.encode(qtDistances);//stringDistances
+// await Deno.writeFile("src/colorPalette/limit_qt_distances.txt", encodedString);//distancias
+
+
+// console.log("Demorou ms: "+(Date.now()-past));
 
 
 
