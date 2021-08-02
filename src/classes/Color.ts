@@ -1,8 +1,12 @@
 export class Color{
+  readonly rgb: number[];
+
   constructor(
     readonly hex: string,
-    readonly rgb: number[]
-  ){}
+    rgb: number[] = []
+  ){
+    this.rgb = rgb.length > 0 ? rgb : Color.hexToRgb(this.hex);
+  }
 
   static calculateColorDistance(colorRgb1: number[], colorRgb2: number[]): number{
     let sumOfSquares = 0;
