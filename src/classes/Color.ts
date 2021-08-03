@@ -1,11 +1,17 @@
 export class Color{
   readonly rgb: number[];
+  readonly hex: string;
 
   constructor(
-    readonly hex: string,
-    rgb: number[] = []
+    color: string | number[]
   ){
-    this.rgb = rgb.length > 0 ? rgb : Color.hexToRgb(this.hex);
+    if(typeof(color) == "string"){
+      this.hex = color;
+      this.rgb = Color.hexToRgb(color);
+      return;
+    }
+    this.rgb = color;
+    this.hex = Color.rgbToHex(color);
   }
 
   static calculateColorDistance(colorRgb1: number[], colorRgb2: number[]): number{
