@@ -10,9 +10,9 @@ console.log(await Node.populateAllNodes());
 //console.log(Node.growTree(32));
 
 const past = Date.now();
-console.log("buscando 0 0 0: ",Node.buscaSequencial([0,0,0]));
-console.log("buscando perto 0 0 0: ",Node.buscaSequencial([0,0,0], "near"));
-console.log("buscando 128 128 128: ",Node.buscaSequencial([128,128,128]));
+console.log("buscando 0 0 0: ",Node.sequentialSearch([0,0,0]));
+console.log("buscando perto 0 0 0: ",Node.sequentialSearch([0,0,0], "near"));
+console.log("buscando 128 128 128: ",Node.sequentialSearch([128,128,128]));
 
 
 
@@ -79,3 +79,6 @@ function convertePixelPraBloco({r,g,b,opacity})
 ///salvar os nodes referenciados por outros, e ver alguma forma de saber se todos se referenciam?... ou só testar busca pra isso
 
 //data struct do bitmap: [r,g,b,opacity,...]
+
+
+////lua: possibilitar gerar em qualquer eixo trocando o "eixo" no script
