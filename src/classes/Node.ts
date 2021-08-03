@@ -1,5 +1,6 @@
 import { readJsonSync } from "https://deno.land/x/jsonfile@1.0.0/mod.ts";
 import { Color } from "./Color.ts";
+import { Block } from "./Block.ts";
 import { Neighbor } from "./Neighbor.ts";
 import { NeighborsManager } from "./NeighborsManager.ts";
 import { ListNearNeighbors } from "./ListNearNeighbors.ts";
@@ -10,7 +11,7 @@ export class Node{
   private neighbors: NeighborsManager;
 
   constructor(
-    readonly blockIdAndData: {blockId: number, metadata: number},
+    readonly block: Block,
     private color: Color
   ){
     this.neighbors = new NeighborsManager( this.id );
@@ -52,7 +53,7 @@ export class Node{
       for(let metadata = 0; metadata <= 15; metadata++){
         const colorHex = rawPalette[blockId][metadata];
         if(Node.dictionaryAllNodes[colorHex]) continue;//evita cor duplicada
-        const block = {blockId, metadata};
+        const block = new Block(blockId, metadata);
         new Node(block, new Color(colorHex));
       }
     }
@@ -84,21 +85,21 @@ export class Node{
     return true;
   }
 
-  static sequentialSearch(targetColor: number[] | string, mode: "strict" | "near" = "strict"): Node{
-    const color = new Color(targetColor);
-    const targetNode = Node.dictionaryAllNodes[color.hex];
+  static sequentialSearch(targetColor: Color, mode: "strict" | "near" = "strict"): Node{
+    //- | number[] | string   const color = Color.validate(targetColor);
+    const targetNode = Node.dictionaryAllNodes[targetColor.hex];
     if(targetNode !== undefined && mode === "strict") return targetNode;
 
     let closerToTarget = {distance: 444, node: Node.allNodes[0]};
     for(const node of Node.allNodes){
-      const distanceToNode = node.distanceToRgb(color.rgb);
+      const distanceToNode = node.distanceToRgb(targetColor.rgb);
       if(distanceToNode < closerToTarget.distance){
         if(distanceToNode === 0 && mode === "near") continue;
         closerToTarget = {distance: distanceToNode, node: node};
       }
     }
 
-    console.log("O resultado da busca sequencial estava próximo do alvo em "+closerToTarget.distance);
+    //-console.log("O resultado da busca sequencial estava próximo do alvo em "+closerToTarget.distance);
     return closerToTarget.node;
   }
 
