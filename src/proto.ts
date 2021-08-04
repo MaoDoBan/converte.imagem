@@ -78,7 +78,13 @@ function convertePixelPraBloco({r,g,b,opacity})
 ///testar com 1 vizinho só salvo, pra ver a maior distância
 ///salvar os nodes referenciados por outros, e ver alguma forma de saber se todos se referenciam?... ou só testar busca pra isso
 
+///gerar a imagem pra 2 direções, dai comparar o tamanho do output e escolher o menor
+///colocar letras nos nodes, pro idBlock pra reduzir o tamanho do arquivo lua.
+
 //data struct do bitmap: [r,g,b,opacity,...]
 
 
 ////lua: possibilitar gerar em qualquer eixo trocando o "eixo" no script
+////lua: gerar de 5000 em 5000
+////lua: teleportar o player pra certo local, esperar, continuar gerando
+
