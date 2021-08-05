@@ -46,7 +46,8 @@ local geraLinha = function(anteriores, linha, eixo, x, y, z)
     local quantidade, idBloco, metadata = validaBloco(anteriores, linha, i);
 
     for _ = 1, quantidade do --coloca no mundo todos os blocos do tipo
-      Block:setBlockAll(x, y, z, idBloco, metadata);
+      --Block:setBlockAll(x, y, z, idBloco, metadata);
+      Block:placeBlock(idBloco, x, y, z, metadata);
       x, y, z = proximasCoordenadas(eixo, x, y, z);
     end
   end

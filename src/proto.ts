@@ -3,8 +3,6 @@ import { Node } from "./classes/Node.ts";
 // import { Color } from "./classes/Color.ts";
 
 
-//const past = Date.now();
-
 //const Arvere = new Node();
 console.log(await Node.populateAllNodes());
 //console.log(Node.growTree(32));
@@ -15,29 +13,14 @@ const past = Date.now();
 // console.log("buscando 128 128 128: ",Node.sequentialSearch([128,128,128]));
 
 
-
-
 console.log("Demorou ms: "+(Date.now()-past));
 
-
-// const palette = new Palette();
-// console.log("Populou "+palette.length+" Cores!");
 
 // const qt = 50;
 // const stringDistances = Color.populateDistances( Object.values(palette) as Color[], qt );
 // const qtDistances = qt+"\n\n" + Color.listHowManyDistances( Object.values(palette) as Color[] );
 
-// const encoder = new TextEncoder();
-// const encodedString = encoder.encode(qtDistances);//stringDistances
-// await Deno.writeFile("src/colorPalette/limit_qt_distances.txt", encodedString);//distancias
 
-
-
-
-// const fileName = "t3x3";//"maum";
-// const rawImage = await Deno.readFile("paleta_cores/"+fileName+".png");
-// const imageDecoded = await Image.decode(rawImage);
-// console.log(imageDecoded);//.bitmap
 
 
 /*
@@ -64,6 +47,9 @@ function convertePixelPraBloco({r,g,b,opacity})
 
 */
 
+//data struct do bitmap: [r,g,b,opacity,...]
+
+
 ///fazer um teste de gerar cor aleatória, umas 10'000'000, e rodar 2 buscas (a informada e a linear),
 ///  e pensar em como salvar esses dados (de tempo total, quantia de nós vistos até "finalizar a busca" e de distância (poderia ter um
 ///  contador de acertos da informada e uma lista dos erros com a distância inf e lin))
@@ -78,10 +64,10 @@ function convertePixelPraBloco({r,g,b,opacity})
 ///testar com 1 vizinho só salvo, pra ver a maior distância
 ///salvar os nodes referenciados por outros, e ver alguma forma de saber se todos se referenciam?... ou só testar busca pra isso
 
+
 ///gerar a imagem pra 2 direções, dai comparar o tamanho do output e escolher o menor
 ///colocar letras nos nodes, pro idBlock pra reduzir o tamanho do arquivo lua.
-
-//data struct do bitmap: [r,g,b,opacity,...]
+///em vez do de cima, contar números que se repetem
 
 
 ////lua: possibilitar gerar em qualquer eixo trocando o "eixo" no script

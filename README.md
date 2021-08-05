@@ -1,5 +1,7 @@
 Sisteminha inicialmente só para a NandaPlay usar, que vai converter uma imagem em um script .lua para gerar uma pixel-art dentro do Mini World.
 
+Versão 0.5 em andamento
+
 Rodar os .lua: lua public/lua/.lua
 
 Comando pra rodar .ts na pasta colorPalette:
