@@ -6,6 +6,7 @@ import { SegmentManager } from "./SegmentManager.ts";
 
 export class Converter{
   private static convertedPixels: { [hex: string]: Block } = {};
+  private static numberCounter: number[] = [];//-{ [num: number]: number } = {};
   private image: Image = {} as Image;
   private x = 0;
   private y = 0;
@@ -19,15 +20,19 @@ export class Converter{
 
     const rawImage = await Deno.readFile("io/"+fileName+".png");
     this.image = await Image.decode(rawImage);
+    /// se largura ou altura da imagem > 270, retorna erro
+
+    Converter.initializeNumberCounter();
     ///const blockMatrixStringX = this.imageToMatrix("x");
-    const blockMatrixStringY = this.imageToMatrix("y");
+    const blockMatrixStringY = this.imageToStringMatrix("y");
+    ///comparar qual tem menos caracteres...
     //-console.log("Matriz:",blockMatrixString);
 
-    Converter.saveLua(fileName, 'local a="a"; Dados={'+orientation+','+blockMatrixStringY+'}');
+    Converter.saveLua(fileName, 'local a="a"; Dados={'+orientation+','+blockMatrixStringY+'}');////tirar declarações de variáveis daqui
     console.log("Demorou ms: "+(Date.now()-past)+"\nO script vai gerar "+this.ct+" blocos"); this.ct = 0;
   }
   
-  private imageToMatrix(direction: "x" | "y"){
+  private imageToStringMatrix(direction: "x" | "y"): string{
     this.x = 0;
     this.y = this.image.height-1;
     //-this.previous = new PreviousInfos();
@@ -39,6 +44,12 @@ export class Converter{
     }
     return matrixString.slice(0, -1);//removendo o último caractere
   }
+  private precisadenome(){
+    for(const blockLine of imageToBlockMatrix()){
+      ;
+    }
+  }
+
   private pixelLines(direction: "x" | "y"): Uint8ClampedArray[] | number[][]{
     const bitmap = this.image.bitmap;
     const lines: Uint8ClampedArray[] = [];
@@ -63,7 +74,11 @@ export class Converter{
     }
     return lines;
   }
-  private pixelLineToString(line: Uint8ClampedArray | number[]): string{
+
+  private imageToBlockMatrix(){
+
+  }
+  private pixelLineToString(line: Uint8ClampedArray | number[]): string{///deprecated, delete in 0.5
     //-console.log("line:\n",line.toString());
     const segManager = new SegmentManager();
     for(let iPixel = 0; iPixel < line.length; iPixel+=4){
@@ -91,5 +106,16 @@ export class Converter{
 
   private static async saveLua(fileName: string, text: string){
     await Deno.writeTextFile("io/"+fileName+".lua", text);
+  }
+
+  private static initializeNumberCounter(){
+    const newNC: number[] = [];
+    for(let i = 0; i <= 272; i++){
+      newNC[i] = 0;
+    }
+    for(let i = 667; i <= 682; i++){
+      newNC[i] = 0;
+    }
+    Converter.numberCounter = newNC;
   }
 }
