@@ -7,7 +7,6 @@ import { ListNearNeighbors } from "./ListNearNeighbors.ts";
 
 export class Node{
   private static dictionaryAllNodes: { [hex: string]: Node } = {};
-  static readonly allNodes: Node[] = [];
   private neighbors: NeighborsManager;
 
   constructor(
@@ -16,7 +15,6 @@ export class Node{
   ){
     this.neighbors = new NeighborsManager( this.id );
     Node.dictionaryAllNodes[this.color.hex] = this;
-    Node.allNodes.push(this);
   }
 
   get colorRgb(): number[]{
@@ -24,6 +22,13 @@ export class Node{
   }
   get id(): string{
     return this.color.hex;
+  }
+
+  static get allNodesLength(): number{
+    return Object.keys(Node.dictionaryAllNodes).length;
+  }
+  static get allNodes(): Node[]{
+    return Object.values(Node.dictionaryAllNodes);
   }
 
   distanceToNode(otherNode: Node): number{
@@ -36,12 +41,12 @@ export class Node{
   static getNeighbors(nodeId: string): NeighborsManager{
     return Node.dictionaryAllNodes[nodeId].neighbors;
   }
-  // static get emptyNode(): Node{
+  /*static get emptyNode(): Node{
   //   return new Node({blockId: 0, metadata: 0}, new Color("empty", [-555,-555,-555]));
   // }
-  static getNode(hex: string): Node{
-    return Node.dictionaryAllNodes[hex];
-  }
+  // static getNode(hex: string): Node{
+  //   return Node.dictionaryAllNodes[hex];
+  // }*/
 
   static populateAllNodes(): boolean{
     if(Node.allNodes.length > 0) return false;
@@ -58,14 +63,15 @@ export class Node{
       }
     }
 
-    console.log("Populated "+Node.allNodes.length+" Nodes");
+    console.log("Populated "+Node.allNodesLength+" Nodes");
     return true;
   }
 
-  static growTree(limitNeighbors: number): boolean{///inacabada
-    for(const node of Node.allNodes){
+  static growTree(limitNeighbors: number): boolean{///inacabada TODO:
+    const allNodes = Node.allNodes;
+    for(const node of allNodes){
       const nearNeighbors = new ListNearNeighbors(limitNeighbors);
-      for(const otherNode of Node.allNodes){
+      for(const otherNode of allNodes){
         if( node.id === otherNode.id ) continue;
 
         const distance = node.distanceToNode(otherNode);
@@ -90,8 +96,9 @@ export class Node{
     const targetNode = Node.dictionaryAllNodes[targetColor.hex];
     if(targetNode !== undefined && mode === "strict") return targetNode;
 
-    let closerToTarget = {distance: 444, node: Node.allNodes[0]};
-    for(const node of Node.allNodes){
+    const allNodes = Node.allNodes;
+    let closerToTarget = {distance: 444, node: allNodes[0]};
+    for(const node of allNodes){
       const distanceToNode = node.distanceToRgb(targetColor.rgb);
       if(distanceToNode < closerToTarget.distance){
         if(distanceToNode === 0 && mode === "near") continue;
