@@ -1,4 +1,4 @@
-export class NumberCounter{
+export class Counter{
   private counter: number[];
   constructor(
     private limit = 682,
@@ -31,7 +31,7 @@ export class NumberCounter{
     }
   }
 
-  popHighest(): number{
+  popHighestToHex(): string{////
     let max = {num: -1, count: 0};
     for(let i = 10; i < this.counter.length; i++){
       if(this.counter[i] && this.counter[i] > max.count){

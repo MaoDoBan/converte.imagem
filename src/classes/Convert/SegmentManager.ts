@@ -1,6 +1,5 @@
-import { Block } from "./Block.ts";
-import { NumberCounter } from "./NumberCounter.ts";
-type CurrentBlock = {count: number, block: Block};
+import { Counter } from "./Counter.ts";
+type CurrentBlock = {count: number, block: string};
 type NumOrString = number | string;
 type DictNumToString = { [num: number]: string };
 
@@ -13,19 +12,19 @@ export class SegmentManager{
   private segments: NumOrString[][];
   private currentSegment: NumOrString[];
   private currentBlock: CurrentBlock;
-  private counter: NumberCounter;
+  private counter: Counter;
   constructor(){
     this.segments = [];
     this.currentSegment = [];
     this.currentBlock = {} as CurrentBlock;
-    this.counter = new NumberCounter();
+    this.counter = new Counter();
   }
 
   private get segmentIsClosed(): boolean{
     return this.closed.segment;
   }
 
-  update(block: Block, x: number, y: number){
+  update(block: string, x: number, y: number){
     if(this.segmentIsClosed){//create segment
       this.closed.segment = open;
       this.currentSegment = [x, y, 0];
