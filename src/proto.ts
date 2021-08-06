@@ -49,6 +49,29 @@ function convertePixelPraBloco({r,g,b,opacity})
 
 //data struct do bitmap: [r,g,b,opacity,...]
 
+/*
+--fazer calculo se vale a pena por como variável, medindo nome da var, largura do valor e vezes que se repete
+local a,b,c=10,11,19f  --19f seria: qt blockId data
+Dados={
+  {"x","y",100,0,0,0,c,27a,c,44eb,11A}
+  --direçãoX, direçãoY, largura, x, y, z, ...[qt blockId data | qt ar]
+  --aceitaria gerar várias imagens, cada uma com eixo, largura, coo diferentes
+};
+
+local a,b,c=10,11,{19f}  --no {19f} seria {qt}
+DadosOld2 = {
+  "x",
+  {0,0,0,2,1,0,"a",2,15,1,3,"a",3,"a",0},
+  {"a",1,"a",2,1,0,"a",2,15,1,3,"a",3,"a",0}
+};
+
+DadosOld = {
+  "x",
+  {0,0,0,2,1,0,"a",2,15,1,3,"a",3,"a",0},
+  {"a",1,"a",2,1,0,"a",2,15,1,3,"a",3,"a",0}
+};
+*/
+
 
 ///fazer um teste de gerar cor aleatória, umas 10'000'000, e rodar 2 buscas (a informada e a linear),
 ///  e pensar em como salvar esses dados (de tempo total, quantia de nós vistos até "finalizar a busca" e de distância (poderia ter um
@@ -71,6 +94,6 @@ function convertePixelPraBloco({r,g,b,opacity})
 
 
 ////lua: possibilitar gerar em qualquer eixo trocando o "eixo" no script
-////lua: gerar de 5000 em 5000
+////lua: gerar de 5000 em 5000 || escrever no "chat" de 1k em 1k
 ////lua: teleportar o player pra certo local, esperar, continuar gerando
 
