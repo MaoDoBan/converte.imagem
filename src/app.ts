@@ -1,4 +1,5 @@
 import { Converter } from "./classes/Converter.ts";
 
 const converter = new Converter();
-converter.convert("arco-iris");//"t3x3" "maum"
+await converter.convert("arco-iris.png");//"t3x3" "maum"
+///await converter.saveLua("arco-iris");
