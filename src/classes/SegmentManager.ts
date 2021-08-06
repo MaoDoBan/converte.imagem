@@ -2,7 +2,7 @@ import { Block } from "./Block.ts";
 import { NumberCounter } from "./NumberCounter.ts";
 type CurrentBlock = {count: number, block: Block};
 type NumOrString = number | string;
-type NumToString = { [num: number]: string };
+type DictNumToString = { [num: number]: string };
 
 const andClose = true;
 const andMergeBlock = true;
@@ -77,12 +77,22 @@ export class SegmentManager{
   }
 
   toString(): string{
-    const repeated = this.getNumberToLetter();
+    if(!this.segmentIsClosed) this.mergeSegment(andMergeBlock);
+
+    const numToLetter = this.getNumberToLetter();
+
+    ///fazer var na classe pra guardar o "local a,b,c=123,21,2"
+    let segmentsString = "";
+    for(const segment of this.segments){
+      this.segmentNumToLetter(segment, numToLetter);
+      segmentsString += '{'+segment.toString()+'},';
+    }
+    return segmentsString;
   }
-  private getNumberToLetter(): NumToString{
+  private getNumberToLetter(): DictNumToString{
     const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const limit = this.counter.length < letters.length ? this.counter.length : letters.length;
-    const repeatedDict: NumToString = {};
+    const repeatedDict: DictNumToString = {};
 
     for(let i = 0; i < limit; i++){
       const highest = this.counter.popHighest();
@@ -90,30 +100,24 @@ export class SegmentManager{
     }
     return repeatedDict;
   }
-
-  toStringOld(): string{////delete on 0.5
-    const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const limit = this.counter.length < letters.length ? this.counter.length : letters.length;
-    let segmentsString = "";
-    let values = "";
-
-    for(let i = 0; i < limit; i++){
-      segmentsString += letters[i]+',';
+  private segmentNumToLetter(segment: NumOrString[], dict: DictNumToString){
+    for(let i = 0; i < segment.length; i++){
+      if( dict[ segment[i] as number ] ) segment[i] = dict[ segment[i] as number ];
     }
-    if(limit > 0){
-      segmentsString = 
-        "local "+segmentsString.slice(0, -1)+//removendo o último caractere
-        "="+values.slice(0, -1)+"\n";
-    }
-
-    for(const segment of this.segments){
-      segmentsString += '{'+segment.toString()+'},';
-    }
-    //-return segmentsString;
-    // this.counter.popHighest();
-    // if(!this.segmentIsClosed) this.mergeSegment(andMergeBlock);
-    // let segmentsString = "";
   }
+
+  // toStringOld(): string{////delete on 0.5
+  //   let values = "";
+
+  //   for(let i = 0; i < limit; i++){
+  //     segmentsString += letters[i]+',';
+  //   }
+  //   if(limit > 0){
+  //     segmentsString = 
+  //       "local "+segmentsString.slice(0, -1)+//removendo o último caractere
+  //       "="+values.slice(0, -1)+"\n";
+  //   }
+  // }
 }
 
 /// colocar a só quando o repetido for maior que 9
