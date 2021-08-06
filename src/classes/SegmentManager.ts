@@ -1,27 +1,35 @@
 import { Block } from "./Block.ts";
-import { PreviousInfos } from "./PreviousInfos.ts";
+import { NumberCounter } from "./NumberCounter.ts";
 type CurrentBlock = {count: number, block: Block};
+type NumOrString = number | string;
+type NumToString = { [num: number]: string };
 
 const andClose = true;
 const andMergeBlock = true;
 const open = false;
 
 export class SegmentManager{
-  private static previous: PreviousInfos = {} as PreviousInfos;
   private closed = {segment: true, block: true};
-  private segments: number[][];
-  private currentSegment: number[];
+  private segments: NumOrString[][];
+  private currentSegment: NumOrString[];
   private currentBlock: CurrentBlock;
+  private counter: NumberCounter;
   constructor(){
     this.segments = [];
     this.currentSegment = [];
     this.currentBlock = {} as CurrentBlock;
+    this.counter = new NumberCounter();
   }
 
-  update(block: Block, x: number, z: number){
-    if(this.closed.segment){
+  private get segmentIsClosed(): boolean{
+    return this.closed.segment;
+  }
+
+  update(block: Block, x: number, y: number){
+    if(this.segmentIsClosed){//create segment
       this.closed.segment = open;
-      this.currentSegment = [x, 0, z];
+      this.currentSegment = [x, y, 0];
+      this.counter.increment(x, y);
     }
     if(this.closed.block){
       this.closed.block = open;
@@ -51,6 +59,11 @@ export class SegmentManager{
       this.currentBlock.block.id,
       this.currentBlock.block.data
     );
+    this.counter.increment(
+      this.currentBlock.block.id,
+      this.currentBlock.block.data,
+      this.currentBlock.count
+    );
   }
   private mergeSegment(mergeBlock = false, close = false){
     if(mergeBlock) this.mergeCurrentBlock(close);//- && !this.closed.block
@@ -59,17 +72,47 @@ export class SegmentManager{
   }
 
   closeCurrentSegment(){
-    if(this.closed.segment) return;
+    if(this.segmentIsClosed) return;
     this.mergeSegment(andMergeBlock, andClose);
   }
 
-  allToString(): string{
-    if(!this.closed.segment) this.mergeSegment(andMergeBlock);
+  toString(): string{
+    const repeated = this.getNumberToLetter();
+  }
+  private getNumberToLetter(): NumToString{
+    const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const limit = this.counter.length < letters.length ? this.counter.length : letters.length;
+    const repeatedDict: NumToString = {};
+
+    for(let i = 0; i < limit; i++){
+      const highest = this.counter.popHighest();
+      repeatedDict[highest] = letters[i];
+    }
+    return repeatedDict;
+  }
+
+  toStringOld(): string{////delete on 0.5
+    const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const limit = this.counter.length < letters.length ? this.counter.length : letters.length;
     let segmentsString = "";
+    let values = "";
+
+    for(let i = 0; i < limit; i++){
+      segmentsString += letters[i]+',';
+    }
+    if(limit > 0){
+      segmentsString = 
+        "local "+segmentsString.slice(0, -1)+//removendo o último caractere
+        "="+values.slice(0, -1)+"\n";
+    }
+
     for(const segment of this.segments){
       segmentsString += '{'+segment.toString()+'},';
     }
-    return segmentsString;
+    //-return segmentsString;
+    // this.counter.popHighest();
+    // if(!this.segmentIsClosed) this.mergeSegment(andMergeBlock);
+    // let segmentsString = "";
   }
 }
 
