@@ -1,3 +1,5 @@
+import { Util } from "../Util.ts";
+
 export class Color{
   readonly rgb: number[];
   readonly hex: string;
@@ -18,7 +20,6 @@ export class Color{
     this.rgb = color;
     this.hex = Color.rgbToHex(color);
   }
-  
   static calculateColorDistance(colorRgb1: number[], colorRgb2: number[]): number{
     let sumOfSquares = 0;
     for(let i = 0; i < 3; i++){
@@ -31,7 +32,7 @@ export class Color{
   static hexToRgb(hex: string): number[]{
     const colorRgb: number[] = [];
     for(let i = 0; i <= 4; i += 2) {
-      colorRgb[i/2] = parseInt(hex.substr(i, 2), 16);
+      colorRgb[i/2] = Util.hexToDec( hex.substr(i, 2) );
     }
     return colorRgb;
   }
@@ -39,7 +40,7 @@ export class Color{
   static rgbToHex(rgb: number[]): string{
     let hex = "";
     for(const part of rgb){
-      let partHex = part.toString(16);
+      let partHex = Util.decToHex(part);
       partHex = partHex.length < 2 ? '0'+partHex : partHex;
       hex += partHex;
     }
