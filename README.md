@@ -2,7 +2,9 @@ Sisteminha inicialmente só para a NandaPlay usar, que vai converter uma imagem 
 
 Versão 0.6 em andamento
 
-Rodar os .lua: lua public/lua/.lua
+Rodar os .lua:
+lua src/lua/.lua
+lua public/lua/.lua
 
 Comando pra rodar .ts na pasta colorPalette:
 deno run --allow-read --allow-write --allow-net --unstable src/colorPalette/.ts

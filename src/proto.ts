@@ -50,10 +50,20 @@ function convertePixelPraBloco({r,g,b,opacity})
 //data struct do bitmap: [r,g,b,opacity,...]
 
 /*
---fazer calculo se vale a pena por como variável, medindo nome da var, largura do valor e vezes que se repete
-local a,b,c=10,11,19f  --19f seria: qt blockId data
+Dict={--salvar em hex
+  d1={
+    a,b,c,d,ab,cd,dr="2ee",...
+  }
+}
 Dados={
-  {"x","y",100,0,0,0,c,27a,c,44eb,11A}
+  {"x","y",100,0,0,0,"abfasdfasgSKFFAMSOFImisisjdfisaADFAdfa"},
+  {}...
+};
+
+--fazer calculo se vale a pena por como variável, medindo nome da var, largura do valor, vezes que se repete e somando 2 por causa das aspas
+local a,b,c=10,11,19f  --19f seria: qt blockId data
+DadosOld3={
+  {"x","y",100,0,0,0,c,"27a",c,"44eb","11_"}
   --direçãoX, direçãoY, largura, x, y, z, ...[qt blockId data | qt ar]
   --aceitaria gerar várias imagens, cada uma com eixo, largura, coo diferentes
 };
