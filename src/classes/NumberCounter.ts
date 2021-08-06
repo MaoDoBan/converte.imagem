@@ -24,7 +24,6 @@ export class NumberCounter{
   increment(...numbers: number[]){
     for(const num of numbers){
       if(num < 10 || num > this.limit){
-        //console.log("ERRO: NumberCounter.increment só aceita 10 a "+this.limit+" ! Parâmetro errado: " + num);
         continue;
       }
       this.counter[num] += 2;

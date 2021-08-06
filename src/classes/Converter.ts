@@ -1,18 +1,19 @@
 import { Image } from "https://deno.land/x/imagescript@1.2.9/mod.ts";
 import { Node } from "./Node.ts";
 import { Color } from "./Color.ts";
-import { Block } from "./Block.ts";
-import { SegmentManager } from "./SegmentManager.ts";
+import { SegmentManager } from "./SegmentManager.ts";///
 
 export class Converter{
-  private static convertedPixels: { [hex: string]: Block } = {};
-  private static numberCounter: number[] = [];//-{ [num: number]: number } = {};
-  private image: Image = {} as Image;
-  private x = 0;
-  private y = 0;
-  private ct = 0;
+  private static convertedDict: { [hex: string]: string } = {};
+  private convertedImages: string[] = [];
+  private actual = {
+    x: 0,
+    y: 0,
+    ct: 0,
+    image: {} as Image
+  };
   constructor(){
-    Node.populateAllNodes();
+    if(Node.allNodesLength == 0) Node.populateAllNodes();
   }
 
   async convert(fileName: string, orientation = '"x"'){
@@ -22,7 +23,6 @@ export class Converter{
     this.image = await Image.decode(rawImage);
     /// se largura ou altura da imagem > 270, retorna erro
 
-    Converter.initializeNumberCounter();
     ///const blockMatrixStringX = this.imageToMatrix("x");
     const blockMatrixStringY = this.imageToStringMatrix("y");
     ///comparar qual tem menos caracteres...
@@ -44,13 +44,11 @@ export class Converter{
     }
     return matrixString.slice(0, -1);//removendo o último caractere
   }
-  private precisadenome(){
-    for(const blockLine of imageToBlockMatrix()){
-      ;
-    }
-  }
 
-  private pixelLines(direction: "x" | "y"): Uint8ClampedArray[] | number[][]{
+  private imageToBlockMatrix(){
+
+  }
+  private pixelLines(direction: "x" | "y"): Uint8ClampedArray[] | number[][]{///deprecated, delete in 0.5
     const bitmap = this.image.bitmap;
     const lines: Uint8ClampedArray[] = [];
     if(direction == "x"){
@@ -61,7 +59,7 @@ export class Converter{
     }
     return this.pixelLineY();
   }
-  private pixelLineY(): number[][]{
+  private pixelLineY(): number[][]{///deprecated, delete in 0.5
     const bitmap = this.image.bitmap;
     const lines: number[][] = [];
     for(let iColumn = 0; iColumn < this.image.width; iColumn++){
@@ -75,9 +73,6 @@ export class Converter{
     return lines;
   }
 
-  private imageToBlockMatrix(){
-
-  }
   private pixelLineToString(line: Uint8ClampedArray | number[]): string{///deprecated, delete in 0.5
     //-console.log("line:\n",line.toString());
     const segManager = new SegmentManager();
@@ -88,34 +83,24 @@ export class Converter{
         continue;
       }
 
-      const block = this.pixelToBlock([ line[iPixel], line[iPixel+1], line[iPixel+2] ]);
+      const block = this.pixelToBlock(line[iPixel], line[iPixel+1], line[iPixel+2]);
       segManager.update(block, this.x, this.y);
       this.x++; this.ct++;
     }
     return segManager.allToString();
   }
-  private pixelToBlock(rgb: number[]): Block{
+
+  private pixelToBlock(...rgb: number[]): string{
     const colorHex = Color.rgbToHex(rgb);
-    let block = Converter.convertedPixels[colorHex];
+    let block = Converter.convertedDict[colorHex];
     if(block) return block;
     const color = new Color(colorHex, rgb);
     block = Node.sequentialSearch(color).block;
-    Converter.convertedPixels[color.hex] = block;
+    Converter.convertedDict[color.hex] = block;
     return block;
   }
 
   private static async saveLua(fileName: string, text: string){
     await Deno.writeTextFile("io/"+fileName+".lua", text);
-  }
-
-  private static initializeNumberCounter(){
-    const newNC: number[] = [];
-    for(let i = 0; i <= 272; i++){
-      newNC[i] = 0;
-    }
-    for(let i = 667; i <= 682; i++){
-      newNC[i] = 0;
-    }
-    Converter.numberCounter = newNC;
   }
 }
