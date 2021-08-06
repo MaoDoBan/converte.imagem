@@ -1,6 +1,5 @@
 import { readJsonSync } from "https://deno.land/x/jsonfile@1.0.0/mod.ts";
 import { Color } from "./Color.ts";
-import { Block } from "./Block.ts";
 import { Neighbor } from "./Neighbor.ts";
 import { NeighborsManager } from "./NeighborsManager.ts";
 import { ListNearNeighbors } from "./ListNearNeighbors.ts";
@@ -10,7 +9,7 @@ export class Node{
   private neighbors: NeighborsManager;
 
   constructor(
-    readonly block: Block,
+    readonly block: string,
     private color: Color
   ){
     this.neighbors = new NeighborsManager( this.id );
@@ -58,13 +57,16 @@ export class Node{
       for(let metadata = 0; metadata <= 15; metadata++){
         const colorHex = rawPalette[blockId][metadata];
         if(Node.dictionaryAllNodes[colorHex]) continue;//evita cor duplicada
-        const block = new Block(blockId, metadata);
+        const block = Node.newBlock(blockId, metadata);
         new Node(block, new Color(colorHex));
       }
     }
 
     console.log("Populated "+Node.allNodesLength+" Nodes");
     return true;
+  }
+  private static newBlock(id: number, metadata: number): string{
+    return (id-667).toString(16) + metadata.toString(16);
   }
 
   static growTree(limitNeighbors: number): boolean{///inacabada TODO:
