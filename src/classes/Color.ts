@@ -18,12 +18,7 @@ export class Color{
     this.rgb = color;
     this.hex = Color.rgbToHex(color);
   }
-  /*
-  static validate(color: Color |  number[] | string): Color{
-    if(color instanceof Color) return color;
-    return new Color(color);
-  }
-  */
+  
   static calculateColorDistance(colorRgb1: number[], colorRgb2: number[]): number{
     let sumOfSquares = 0;
     for(let i = 0; i < 3; i++){
