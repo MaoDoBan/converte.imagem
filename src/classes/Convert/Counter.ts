@@ -1,9 +1,10 @@
-export class Counter{
+export class Counter{ ////need rework
   private counter: number[];
+
   constructor(
-    private limit = 682,
-    private lowerLimit = 272
+    private limit = 682
   ){
+    const lowerLimit = 272;
     this.counter = [];
     for(let i = 10; i <= lowerLimit; i++){
       this.counter[i] = 0;
