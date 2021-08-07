@@ -4,7 +4,7 @@ export class Util{
   }
 
   static hexToDec(hex: string): number{
-    return parseInt(hex, 16);
+    return hex === "" ? 0 : parseInt(hex, 16);
   }
   
   static decToBase36(dec: number): string{
@@ -12,8 +12,6 @@ export class Util{
   }
 
   static hexToBase36(hex: string): string{
-    return Util.decToBase36(
-      Util.hexToDec(hex)
-    );
+    return hex === "" ? "" : Util.decToBase36( Util.hexToDec(hex) );
   }
 }
