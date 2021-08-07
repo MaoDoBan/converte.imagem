@@ -1,11 +1,11 @@
 import { Image } from "https://deno.land/x/imagescript@1.2.9/mod.ts";
 import { Node } from "../Tree/Node.ts";
-import { ActualConvert } from "./ActualConvert.ts";
+import { Conversion } from "./Conversion.ts";
 import { NumOrString } from "../../interfaces/Types.ts";
 
-export class Converter{
+export class ConversionManager{
   private allConvertedBlocks: NumOrString[][];
-  private actual = {} as ActualConvert;
+  private actual = {} as Conversion;
   constructor(){
     if(Node.allNodesLength == 0) Node.populateAllNodes();
 
@@ -19,9 +19,9 @@ export class Converter{
     const image = await Image.decode(rawImage);
     if(image.height > 256 || image.width > 256) return console.log("ERRO: dimensão passou do limite de 256!");
     //-this.actual.image = image;
-    this.actual = new ActualConvert(image);
+    this.actual = new Conversion(image);
 
-    this.imageToBlockMatrix();
+    this.actual.imageToBlockMatrix();///TODO: incrementar allConvertedBlocks
 
     //const blockStringMatrix = this.imageToStringMatrix();
     ///comparar qual tem menos caracteres...
@@ -38,19 +38,6 @@ export class Converter{
     ////loop in this.allBlockMatrices doing blockMatrix.toString()
 
     //console.log("Demorou ms: "+(Date.now()-past)+"\nO script vai gerar "+this.actual.totalBlocks+" blocos"); this.ct = 0;
-  }
-  
-  private imageToBlockMatrix(){/////
-    ///if pra ver se vai converter lendo linhas ou lendo colunas
-    const convertedBlocks = this.actual.pixelLinesToMatrix();
-
-    this.allConvertedBlocks.push(convertedBlocks);
-
-    // for(const line of this.pixelLines(direction)){
-    //   matrixString += this.pixelLineToString(line);//-
-      
-    // }
-    console.log("Resultado:", convertedBlocks);
   }
 
   async saveLua(fileName: string, text: string){
