@@ -1,18 +1,15 @@
 import { Image } from "https://deno.land/x/imagescript@1.2.9/mod.ts";
 import { Node } from "../Tree/Node.ts";
-import { SegmentManager } from "./SegmentManager.ts";
-import { BlockMatrix } from "./BlockMatrix.ts";
 import { ActualConvert } from "./ActualConvert.ts";
+import { NumOrString } from "../../interfaces/Types.ts";
 
 export class Converter{
-  private allBlockMatrices: BlockMatrix[];
-  private segManager: SegmentManager;
+  private allConvertedBlocks: NumOrString[][];
   private actual = {} as ActualConvert;
   constructor(){
     if(Node.allNodesLength == 0) Node.populateAllNodes();
 
-    this.allBlockMatrices = [];
-    this.segManager = new SegmentManager();
+    this.allConvertedBlocks = [];
   }
 
   async convert(fileName: string){//, direction: {x: string, y: string} //aceitar posição relativa do player
@@ -31,79 +28,37 @@ export class Converter{
     ///this.convertedImages.push(blockStringMatrix);
 
     //await this.saveLua(fileName, 'local a="a"; Dados={'+orientation+','+blockStringMatrix+'}');////tirar declarações de variáveis daqui
-    console.log("Demorou ms: "+(Date.now()-past)+"\nO script vai gerar "+this.actual.qtBlocks+" blocos"); this.ct = 0;
+
+    console.log("Demorou ms: "+(Date.now()-past));
+  }
+
+  async save(fileName: string){///need new name? because this.saveLua
+    ;
+    ////call other function to loop in this.allBlockMatrices populating repeatStatistics with class Counter
+    ////loop in this.allBlockMatrices doing blockMatrix.toString()
+
+    //console.log("Demorou ms: "+(Date.now()-past)+"\nO script vai gerar "+this.actual.totalBlocks+" blocos"); this.ct = 0;
   }
   
-  private imageToBlockMatrix(){/////TODO:
+  private imageToBlockMatrix(){/////
+    ///if pra ver se vai converter lendo linhas ou lendo colunas
+    const convertedBlocks = this.actual.pixelLinesToMatrix();
 
-    for(const line of this.pixelLines(direction)){
-      matrixString += this.pixelLineToString(line);//-
+    this.allConvertedBlocks.push(convertedBlocks);
+
+    // for(const line of this.pixelLines(direction)){
+    //   matrixString += this.pixelLineToString(line);//-
       
-    }
-    console.log("Resultado:", blockStringMatrix);
+    // }
+    console.log("Resultado:", convertedBlocks);
   }
-
-  private pixelLinesToMatrix(){
-    const width = this.actual.image.width;
-    const bitmap = this.actual.image.bitmap;
-    
-    this.actual.x = 0;
-    this.actual.y = this.actual.image.height-1;
-
-    for(let iStart = 0; iStart < bitmap.length; iStart += width*4){
-      const line = bitmap.subarray( iStart, iStart + width*4 );
-      this.addPixelArray(line);
-
-      this.actual.y--;
-      this.actual.x = 0;
-    }
-  }
-  /*private pixelColumnsToMatrix(): number[][]{///planos pra 0.7
-    const bitmap = this.actual.image.bitmap;
-    const lines: number[][] = [];
-    for(let iColumn = 0; iColumn < this.image.width; iColumn++){
-      const line: number[] = [];
-      for(let iLine = 0; iLine < this.image.height; iLine++){
-        const i = iColumn*4 + iLine*4*this.image.width;//cada pixel ocupa 4 índices
-        line.push(bitmap[i], bitmap[i+1], bitmap[i+2], bitmap[i+3]);
-      }
-      lines.push(line);
-    }
-    return lines;
-  }*/
-
-  private 
 
   async saveLua(fileName: string, text: string){
     await Deno.writeTextFile("io/"+fileName+".lua", text);
   }
 }
 
-//DEPRECATED TODO: delete
-  /*private pixelLines(direction: "x" | "y"): Uint8ClampedArray[] | number[][]{//--V
-    const bitmap = this.image.bitmap;
-    const lines: Uint8ClampedArray[] = [];
-    if(direction == "x"){
-      for(let iRow = 0; iRow < bitmap.length; iRow += this.image.width*4){
-        lines.push( bitmap.subarray( iRow, iRow + this.image.width*4 ) );
-      }
-      return lines;
-    }
-    return this.pixelLineY();
-  }*/
-  /*private pixelLineY(): number[][]{///deprecated, delete in 0.5
-    const bitmap = this.image.bitmap;
-    const lines: number[][] = [];
-    for(let iColumn = 0; iColumn < this.image.width; iColumn++){
-      const line: number[] = [];
-      for(let iLine = 0; iLine < this.image.height; iLine++){
-        const i = iColumn*4 + iLine*4*this.image.width;//cada pixel ocupa 4 índices
-        line.push(bitmap[i], bitmap[i+1], bitmap[i+2], bitmap[i+3]);
-      }
-      lines.push(line);
-    }
-    return lines;
-  }*/
+//DEPRECATED delete
 
   /*private pixelLineToString(line: Uint8ClampedArray | number[]): string{///deprecated, delete in 0.5
     //-console.log("line:\n",line.toString());
@@ -122,7 +77,3 @@ export class Converter{
     return segManager.allToString();
   }*/
 
-  /*private imageToStringMatrix(){
-    const blockMatrix = this.imageToBlockMatrix();
-    return matrixString.slice(0, -1);//removendo o último caractere
-  }*/
