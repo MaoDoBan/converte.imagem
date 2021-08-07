@@ -1,5 +1,4 @@
-import { Image } from "https://deno.land/x/imagescript@1.2.9/mod.ts";
-import { Node } from "./classes/Node.ts";
+import { Node } from "./classes/Tree/Node.ts";
 // import { Color } from "./classes/Color.ts";
 
 
@@ -51,9 +50,7 @@ function convertePixelPraBloco({r,g,b,opacity})
 
 /*
 Dict={--salvar em hex
-  d1={
-    a,b,c,d,ab,cd,dr="2ee",...
-  }
+  a="3de",...
 }
 Dados={
   {"x","y",100,0,0,0,"abfasdfasgSKFFAMSOFImisisjdfisaADFAdfa"},
