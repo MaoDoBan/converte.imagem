@@ -1,20 +1,13 @@
 import { Image } from "https://deno.land/x/imagescript@1.2.9/mod.ts";
-import { Node } from "./Node.ts";
-import { Color } from "./Color.ts";
+import { Node } from "../Tree/Node.ts";
 import { SegmentManager } from "./SegmentManager.ts";
 import { BlockMatrix } from "./BlockMatrix.ts";
+import { ActualConvert } from "./ActualConvert.ts";
 
 export class Converter{
-  private static convertedDict: { [hex: string]: string } = {};
   private allBlockMatrices: BlockMatrix[];
   private segManager: SegmentManager;
-  private actual = {
-    x: 0,
-    y: 0,
-    qtBlocks: 0,
-    image: {} as Image,
-    blockMatrix: {} as BlockMatrix
-  };
+  private actual = {} as ActualConvert;
   constructor(){
     if(Node.allNodesLength == 0) Node.populateAllNodes();
 
@@ -28,7 +21,8 @@ export class Converter{
     const rawImage = await Deno.readFile("io/"+fileName);
     const image = await Image.decode(rawImage);
     if(image.height > 256 || image.width > 256) return console.log("ERRO: dimensão passou do limite de 256!");
-    this.actual.image = image;
+    //-this.actual.image = image;
+    this.actual = new ActualConvert(image);
 
     this.imageToBlockMatrix();
 
@@ -79,17 +73,6 @@ export class Converter{
   }*/
 
   private 
-
-  private pixelToBlock(...rgb: number[]): string{
-    const colorHex = Color.rgbToHex(rgb);
-    let block = Converter.convertedDict[colorHex];
-    if(block) return block;
-
-    const color = new Color(colorHex, rgb);
-    block = Node.sequentialSearch(color).block;
-    Converter.convertedDict[color.hex] = block;
-    return block;
-  }
 
   async saveLua(fileName: string, text: string){
     await Deno.writeTextFile("io/"+fileName+".lua", text);
