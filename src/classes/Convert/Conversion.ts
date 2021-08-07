@@ -11,9 +11,9 @@ export class Conversion{
     this.pixelConverter = new PixelsToBlocks();
   }
 
-  imageToBlockMatrix(): NumOrString[]{
+  imageToBlocks(): NumOrString[]{
     ///ler de linhas, depois colunas, comparar pra escolher o resultado menor
-    const convertedBlocks = this.pixelLinesToMatrix();
+    const convertedBlocks = this.pixelLinesToBlocks();
 
     //-this.allConvertedBlocks.push(convertedBlocks);
 
@@ -25,7 +25,7 @@ export class Conversion{
     return convertedBlocks;
   }
 
-  pixelLinesToMatrix(): NumOrString[]{
+  pixelLinesToBlocks(): NumOrString[]{
     const width = this.image.width;
     const bitmap = this.image.bitmap;
 
