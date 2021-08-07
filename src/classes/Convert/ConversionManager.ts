@@ -21,7 +21,7 @@ export class ConversionManager{
     //-this.actual.image = image;
     this.actual = new Conversion(image);
 
-    this.actual.imageToBlockMatrix();///TODO: incrementar allConvertedBlocks
+    const converted = this.actual.imageToBlocks();///TODO: incrementar allConvertedBlocks
 
     //const blockStringMatrix = this.imageToStringMatrix();
     ///comparar qual tem menos caracteres...
@@ -44,23 +44,3 @@ export class ConversionManager{
     await Deno.writeTextFile("io/"+fileName+".lua", text);
   }
 }
-
-//DEPRECATED delete
-
-  /*private pixelLineToString(line: Uint8ClampedArray | number[]): string{///deprecated, delete in 0.5
-    //-console.log("line:\n",line.toString());
-    const segManager = new SegmentManager(); V
-    for(let iPixel = 0; iPixel < line.length; iPixel+=4){
-      if(line[iPixel+3] < 128){//opacidade menor que 50%
-        this.x++;
-        segManager.closeCurrentSegment();
-        continue;
-      }
-
-      const block = this.pixelToBlock(line[iPixel], line[iPixel+1], line[iPixel+2]);
-      segManager.update(block, this.x, this.y);
-      this.x++; this.ct++;
-    }
-    return segManager.allToString();
-  }*/
-
