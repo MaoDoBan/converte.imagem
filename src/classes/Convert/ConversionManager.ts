@@ -22,7 +22,7 @@ export class ConversionManager{
     this.actual = new Conversion(image);
 
     const converted = this.actual.imageToBlocks();///TODO: incrementar allConvertedBlocks
-    console.log("Resultado:", converted);
+    //console.log("Resultado:", converted);
 
     //const blockStringMatrix = this.imageToStringMatrix();
     ///comparar qual tem menos caracteres...
@@ -33,13 +33,13 @@ export class ConversionManager{
     console.log("Demorou ms: "+(Date.now()-past));
   }
 
-  async save(fileName: string){///need new name? because this.saveLua
+  /*async save(fileName: string){///need new name? because this.saveLua
     ;
     ////call other function to loop in this.allBlockMatrices populating repeatStatistics with class Counter
     ////loop in this.allBlockMatrices doing blockMatrix.toString()
 
     //console.log("Demorou ms: "+(Date.now()-past)+"\nO script vai gerar "+this.actual.totalBlocks+" blocos"); this.ct = 0;
-  }
+  }*/
 
   async saveLua(fileName: string, text: string){
     await Deno.writeTextFile("io/"+fileName+".lua", text);
