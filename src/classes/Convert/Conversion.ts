@@ -24,7 +24,7 @@ export class Conversion{
     //   matrixString += this.pixelLineToString(line);//-
     // }
 
-    return []//convertedBlocks;
+    return [];//convertedBlocks;
   }
 
   pixelLinesToBlocks(): NumOrString[]{
