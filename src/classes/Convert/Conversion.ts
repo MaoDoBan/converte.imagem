@@ -28,12 +28,9 @@ export class Conversion{
   }
 
   pixelLinesToBlocks(): NumOrString[]{
-    const width = this.image.width;
     const bitmap = this.image.bitmap;
-
-    for(let iStart = 0; iStart < bitmap.length; iStart += width*4){
-      const line = bitmap.subarray( iStart, iStart + width*4 );
-      this.pixelConverter.addPixelArray(line);///this.totalBlocks += 
+    for(let i = 0; i < bitmap.length;){
+      this.pixelConverter.addPixel(bitmap[i++], bitmap[i++], bitmap[i++], bitmap[i++]);
     }
     return this.pixelConverter.serializedBlocks;
   }
