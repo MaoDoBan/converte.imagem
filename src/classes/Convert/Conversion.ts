@@ -20,7 +20,6 @@ export class Conversion{
     // for(const line of this.pixelLines(direction)){
     //   matrixString += this.pixelLineToString(line);//-
     // }
-    console.log("Resultado:", this.pixelConverter.serializedBlocks);
 
     return convertedBlocks;
   }

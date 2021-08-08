@@ -22,6 +22,7 @@ export class ConversionManager{
     this.actual = new Conversion(image);
 
     const converted = this.actual.imageToBlocks();///TODO: incrementar allConvertedBlocks
+    console.log("Resultado:", converted);
 
     //const blockStringMatrix = this.imageToStringMatrix();
     ///comparar qual tem menos caracteres...
