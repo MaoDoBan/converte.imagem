@@ -2,7 +2,7 @@ import { Image } from "https://deno.land/x/imagescript@1.2.9/mod.ts";
 import { PixelsToBlocks } from "./PixelsToBlocks.ts";
 import { NumOrString } from "../../interfaces/Types.ts";
 
-export class Conversion{
+export class ImageToBlocks{
   private pixelConverter: PixelsToBlocks;
   
   constructor(
@@ -11,7 +11,11 @@ export class Conversion{
     this.pixelConverter = new PixelsToBlocks();
   }
 
-  imageToBlocks(): NumOrString[]{
+  get result(): NumOrString[]{
+    return this.convert();
+  }
+
+  convert(): NumOrString[]{
     const convertedByLines   = this.pixelLinesToBlocks();
     console.log("Resultado linhas:", convertedByLines);
     const convertedByColumns = this.pixelColumnsToMatrix(convertedByLines.length);

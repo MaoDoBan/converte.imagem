@@ -1,28 +1,28 @@
 import { Image } from "https://deno.land/x/imagescript@1.2.9/mod.ts";
 import { Node } from "../Tree/Node.ts";
-import { Conversion } from "./Conversion.ts";
+import { ImageToBlocks } from "./ImageToBlocks.ts";
 import { NumOrString } from "../../interfaces/Types.ts";
 
 export class ConversionManager{
   private allConvertedBlocks: NumOrString[][];
-  private actual = {} as Conversion;
   constructor(){
     if(Node.allNodesLength == 0) Node.populateAllNodes();
 
     this.allConvertedBlocks = [];
   }
 
-  async convert(fileName: string){//, direction: {x: string, y: string} //aceitar posição relativa do player
+  async convert(fileName: string){
+    ///, direction: {x: string, y: string} //aceitar posição relativa do player
+    /// isso só precisa alterar o xy do output lua
     const past = Date.now();
 
     const rawImage = await Deno.readFile("io/"+fileName);
     const image = await Image.decode(rawImage);
     if(image.height > 256 || image.width > 256) return console.log("ERRO: dimensão passou do limite de 256!");
-    //-this.actual.image = image;
-    this.actual = new Conversion(image);
 
-    const converted = this.actual.imageToBlocks();///TODO: incrementar allConvertedBlocks
-    //console.log("Resultado:", converted);
+    const converted = (new ImageToBlocks(image)).result;
+    this.allConvertedBlocks.push(converted);
+    console.log("Comprimento do resultado escolhido:", converted.length);
 
     //const blockStringMatrix = this.imageToStringMatrix();
     ///comparar qual tem menos caracteres...
