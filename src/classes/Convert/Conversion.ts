@@ -13,7 +13,10 @@ export class Conversion{
 
   imageToBlocks(): NumOrString[]{
     ///ler de linhas, depois colunas, comparar pra escolher o resultado menor
-    const convertedBlocks = this.pixelLinesToBlocks();
+    const convertedByLines   = this.pixelLinesToBlocks();
+    console.log("Resultado linhas:", convertedByLines);
+    const convertedByColumns = this.pixelColumnsToMatrix();
+    console.log("Resultado colunas:", convertedByColumns);
 
     //-this.allConvertedBlocks.push(convertedBlocks);
 
@@ -21,7 +24,7 @@ export class Conversion{
     //   matrixString += this.pixelLineToString(line);//-
     // }
 
-    return convertedBlocks;
+    return []//convertedBlocks;
   }
 
   pixelLinesToBlocks(): NumOrString[]{
@@ -34,17 +37,14 @@ export class Conversion{
     }
     return this.pixelConverter.serializedBlocks;
   }
-  /*pixelColumnsToMatrix(): number[][]{///planos pra 0.7
-    const bitmap = this.actual.image.bitmap;
-    const lines: number[][] = [];
+  pixelColumnsToMatrix(): NumOrString[]{
+    const bitmap = this.image.bitmap;
     for(let iColumn = 0; iColumn < this.image.width; iColumn++){
-      const line: number[] = [];
       for(let iLine = 0; iLine < this.image.height; iLine++){
-        const i = iColumn*4 + iLine*4*this.image.width;//cada pixel ocupa 4 índices
-        line.push(bitmap[i], bitmap[i+1], bitmap[i+2], bitmap[i+3]);
+        let i = iColumn*4 + iLine*4*this.image.width;//cada pixel ocupa 4 índices
+        this.pixelConverter.addPixel(bitmap[i++], bitmap[i++], bitmap[i++], bitmap[i]);
       }
-      lines.push(line);
     }
-    return lines;
-  }*/
+    return this.pixelConverter.serializedBlocks;
+  }
 }
