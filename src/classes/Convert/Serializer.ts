@@ -16,6 +16,10 @@ export class Serializer{
     this.current = {block: "", count: 1};
     return this.serializedBlocks;
   }
+  get length(): number{
+    const serialLength = this.serializedBlocks.length;
+    return this.current.block == "" ? serialLength : serialLength+1;
+  }
 
   addBlock(block: string){
     if(this.current.block == block) return this.current.count++;

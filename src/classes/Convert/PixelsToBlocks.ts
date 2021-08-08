@@ -16,6 +16,9 @@ export class PixelsToBlocks{
     this.serializer = new Serializer();
     return result;
   }
+  get length(): number{
+    return this.serializer.length;
+  }
 
   addPixel(r: number, g: number, b: number, opacity: number){
     if(opacity < 128) return this.serializer.addBlock("_");//opacidade menor que 50%
