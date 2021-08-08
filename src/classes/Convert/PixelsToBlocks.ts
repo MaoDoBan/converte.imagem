@@ -17,11 +17,6 @@ export class PixelsToBlocks{
     return result;
   }
 
-  addPixelArray(pixelArray: Uint8ClampedArray | number[]){////: number  retornar quantos blocos não ar foram serialisados
-    for(let iPixel = 0; iPixel < pixelArray.length; ){///iPixel+=4
-      this.addPixel(pixelArray[iPixel++], pixelArray[iPixel++], pixelArray[iPixel++], pixelArray[iPixel++]);
-    }
-  }
   addPixel(r: number, g: number, b: number, opacity: number){
     if(opacity < 128) return this.serializer.addBlock("_");//opacidade menor que 50%
 
