@@ -24,10 +24,16 @@ export class Serializer{
     this.current.block = block;
     this.current.count = 1;
   }
+
   private serialize(){
-    const count = this.current.count;
+    const {block, count} = this.current;
     const countStr = count > 1 ? Util.decToHex(count) : "";
-    const serialized = Util.hexToBase36( countStr + this.current.block );
-    this.serializedBlocks.push(serialized);
+    const serialized = this.mergeCountAndBlockToBase36(countStr, block);
+    if(serialized !== "") this.serializedBlocks.push(serialized);
+  }
+  private mergeCountAndBlockToBase36(countHex: string, blockHex: string): string{
+    if(blockHex === "_") return Util.hexToBase36(countHex) + blockHex;
+
+    return Util.hexToBase36( countHex + blockHex );
   }
 }
