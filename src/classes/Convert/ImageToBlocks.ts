@@ -17,9 +17,9 @@ export class ImageToBlocks{
 
   convert(): NumOrString[]{
     const convertedByLines   = this.pixelLinesToBlocks();
-    console.log("Resultado linhas:", convertedByLines);
+    //console.log("Resultado linhas:", convertedByLines);
     const convertedByColumns = this.pixelColumnsToMatrix(convertedByLines.length);
-    console.log("Resultado colunas:", convertedByColumns);
+    //console.log("Resultado colunas:", convertedByColumns);
 
     return convertedByLines.length <= convertedByColumns.length ? convertedByLines : convertedByColumns;//convertedBlocks;
   }
