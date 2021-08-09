@@ -53,9 +53,11 @@ Dict={--salvar em hex
   a="3de",...
 }
 Dados={
-  {"x","y",100,0,0,0,"abfasdfasgSKFFAMSOFImisisjdfisaADFAdfa"},
+  {"x","y",0,0,0,100,"abfasdfasgSKFFAMSOFImisisjdfisaADFAdfa"},
   {}...
 };
+
+///colocar um indicador do "nível de compressão", pra não comprimir poucos dados pq não precisa (medir a quantidade de dados pra decidir)
 
 --fazer calculo se vale a pena por como variável, medindo nome da var, largura do valor, vezes que se repete e somando 2 por causa das aspas
 local a,b,c=10,11,19f  --19f seria: qt blockId data
@@ -100,7 +102,11 @@ DadosOld = {
 ///em vez do de cima, contar números que se repetem
 
 
+///site: poder redimensionar as imagens
+/// poder upar várias, e posicionar de forma diferente em relação as outras
+/// poder gerar um "cubo" com a imagem, ou um "cilindro quadrado..."
+
 ////lua: possibilitar gerar em qualquer eixo trocando o "eixo" no script
 ////lua: gerar de 5000 em 5000 || escrever no "chat" de 1k em 1k
-////lua: teleportar o player pra certo local, esperar, continuar gerando
+////lua: teleportar o player pra certo local, esperar, continuar gerando (pra imagens gigantes)
 
