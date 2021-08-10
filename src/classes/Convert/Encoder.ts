@@ -1,23 +1,54 @@
 import { NumOrString } from "../../interfaces/Types.ts";
 import { Counter } from "./Counter.ts";
-type DictNumToString = { [num: number]: string };
+//type DictNumToString = { [num: number]: string };
 
 export class Encoder{
   private counter: Counter;
+  private dict: string;
+  private encoded: string;
 
   constructor(
     convertedMatrix: NumOrString[][]
   ){
     this.counter = new Counter(convertedMatrix);
+    this.dict = "";
+    this.encoded = "";
   }
 
   get result(): string{
-    this.counter.countBlocks();
-    return ""///
+    this.arrayToString();
+    return ""////this.dict + this.encoded;
   }
 
+  private arrayToString(){
+    const qtUniques = this.counter.countBlocks();
 
+    ///se arrayContagem.length maior q 20'000: retorna console.log erro limite
+    if(qtUniques > 20000) return console.log("ERRO: contagem de dict excedeu 20k");
+
+    ///se arrayContagem.length menor que 52: retorna montando dict com A-Z
+    if(qtUniques <= 52) return this.assemble(qtUniques);
+
+    ///monta os 46 mais repetidos em a-z A-T, remove eles do array de contagem
+
+    ///calcula a forma mais otimizada...
+
+    // 
+  }
+  private assemble(limit: number){///, keyLength: number
+    const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    for(let i = 0; i < limit; i++){
+      this.dict += letters[i]+'="'+this.counter.popHighest()+'",';
+      this.encoded += letters[i];
+    }
+    console.log("output: ", this.dict, this.encoded);
+  }
+
+  /*private encodeString(){
+    ;
+  }*/
 }
+    ///-------se array de contagem vazio: retorna
 
 
 /*toStringOld(): string{////delete on 0.5
