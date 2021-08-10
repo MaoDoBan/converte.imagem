@@ -49,15 +49,18 @@ function convertePixelPraBloco({r,g,b,opacity})
 //data struct do bitmap: [r,g,b,opacity,...]
 
 /*
+Nivel=2 --nível de compressão: 1. array hex qt_block; 2. array base36 qt_block; 3. dict pra string; 4. dois dict, compressão dupla da string
 Dict={--salvar em hex
   a="3de",...
 }
 Dados={
-  {"x","y",0,0,0,100,"abfasdfasgSKFFAMSOFImisisjdfisaADFAdfa"},
+  {"x","y",0,0,0,100,"abfasdfasgSKFFAMSOFImisisjdfisaADFAd,fa"},//vírgula indica que não ta no dict
   {}...
 };
 
-///colocar um indicador do "nível de compressão", pra não comprimir poucos dados pq não precisa (medir a quantidade de dados pra decidir)
+v="zzzz"
+///colocar um indicador do "nível de compressão", pra não comprimir poucos dados pq não precisa (medir a quantidade de dados pra decidir) 300'000 parece um bom limite
+/// tamanhos enormes precisa dividir em pedaços de 512x512
 
 --fazer calculo se vale a pena por como variável, medindo nome da var, largura do valor, vezes que se repete e somando 2 por causa das aspas
 local a,b,c=10,11,19f  --19f seria: qt blockId data
