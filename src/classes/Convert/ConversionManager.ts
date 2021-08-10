@@ -13,7 +13,7 @@ export class ConversionManager{
     this.allConverted = [];
   }
 
-  async convert({fileName, lAxis = "x", cAxis = "y", x = 0, y = 0, z = 0}: ConvertParameters){
+  async convert({fileName, lAxis = '"x"', cAxis = '"y"', x = 0, y = 0, z = 0}: ConvertParameters){
     ///, direction: {x: string, y: string} //aceitar posição relativa do player
     /// isso só precisa alterar o xy do output lua
     const past = Date.now();
@@ -22,7 +22,7 @@ export class ConversionManager{
     const image = await Image.decode(rawImage);
     if(image.height > 256 || image.width > 256) return console.log("ERRO: dimensão passou do limite de 256!");
 
-    const converted = (new ImageToBlocks(image)).result;
+    const converted = (new ImageToBlocks(image)).result; ////TODO ERRO FIX: trocar de lugar o x e y de acordo com o resultado escolhido daqui
     console.log("Comprimento do resultado escolhido:", converted.length, "\nConverted:", converted);
 
     converted.unshift(lAxis, cAxis, x, y, z, image.width);//add extra information
@@ -32,19 +32,18 @@ export class ConversionManager{
 
   async save(fileName: string){
     const past = Date.now();
-    ////call other function to loop in this.allBlockMatrices populating repeatStatistics with class Counter
-    ////loop in this.allBlockMatrices doing blockMatrix.toString()
 
     const encoded = (new Encoder(this.allConverted)).result;
     console.log(encoded);
-    console.log("Demorou ms: "+(Date.now()-past)); return;
-
+    console.log("Demorou ms: "+(Date.now()-past));
+    console.log("Tamanho do script lua:",encoded.length);
+    //-return;
     ///'local a="a"; Dados={'+orientation+','+blockStringMatrix+'}'
     await this.outputLua(fileName, encoded);////tirar declarações de variáveis daqui
     ///+"\nO script vai gerar "+this.actual.totalBlocks+" blocos"
     ///this.ct = 0;
   }
   async outputLua(fileName: string, text: string){
-    await Deno.writeTextFile("io/"+fileName+".lua", text);
+    await Deno.writeTextFile("io/"+fileName, text);
   }
 }
