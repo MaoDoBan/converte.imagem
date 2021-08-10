@@ -5,7 +5,7 @@ type BlocksDict = { [block: string]: string };
 export class Encoder{
   private counter: Counter;
   private blocksDict: BlocksDict;///uma classe só pra isso? com .toString()
-  private dict: string;
+  private dictStr: string;
   private encoded: string;
 
   constructor(
@@ -13,24 +13,28 @@ export class Encoder{
   ){
     this.counter = new Counter(this.blockImages);
     this.blocksDict = {};
-    this.dict = "";
+    this.dictStr = "";
     this.encoded = "";
   }
 
   get result(): string{
-    this.run();
-    return ""////this.dict + this.encoded;
+    return this.run();////this.dict + this.encoded;
   }
 
-  private run(){
+  private run(): string{
     const qtUniques = this.counter.countBlocks();
-    this.encode();
 
     ///se arrayContagem.length maior q 20'000: retorna console.log erro limite
-    if(qtUniques > 20000) return console.log("ERRO: contagem de dict excedeu 20k");
+    if(qtUniques > 20000){
+      console.log("ERRO: contagem de dict excedeu 20k");
+      return "";
+    }
+
+    this.encode(); ////////TODO: limitar pra 52 caracteres o dict na versão 0.6
+    return this.mergeDictAndEncoded();
 
     ///se arrayContagem.length menor que 52: retorna montando dict com A-Z
-    if(qtUniques <= 52) return //this.assemble(qtUniques);
+    //if(qtUniques <= 52) return this.encode();//this.assemble(qtUniques);
 
     ///monta os 46 mais repetidos em a-z A-T, remove eles do array de contagem
 
@@ -40,86 +44,43 @@ export class Encoder{
   }
 
   private encode(){
-    //const specialChars = " .,;:-=+";
     const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";//.split('');
+    let highest: string;
     for(let i = 0; i < this.counter.length; i++){
-      this.blocksDict[ this.counter.popHighest() ] = letters[i];
+      highest = this.counter.popHighest();
+      this.blocksDict[highest] = letters[i];
+      this.dictStr += letters[i]+'="'+highest+'",';
     }
+    this.dictStr = this.dictStr.slice(0, -1);//removendo o último caractere
 
-    let lastBlockIsOnDict = false;
+    const specialChars = " .,;:-=+";
     let dictEquivalent: string | undefined;
     let block: string;
     for(const blockImage of this.blockImages){
+      for(let i = 0; i < 6; i++){
+        this.encoded += blockImage[i]+",";
+      }
+      this.encoded += '"';
       for(let i = 6; i < blockImage.length; i++){
         block = blockImage[i] as string;
         dictEquivalent = this.blocksDict[block];
         if(dictEquivalent){
-          if(lastBlockIsOnDict){
-            this.encoded += '.';//specialChars[block.length];
-            lastBlockIsOnDict = false;
-          }
           this.encoded += dictEquivalent;
           continue;
         }
-        this.encoded += ","+block;
-        lastBlockIsOnDict = true;
+        this.encoded += specialChars[block.length]+block;
       }
+      this.encoded += '"';
     }
-    console.log("output:",this.blocksDict,this.encoded,this.encoded.length);
+    //console.log("output:",this.blocksDict,this.encoded,this.encoded.length);
   }
 
-  /*private assemble(limit: number){///, keyLength: number
-    const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let highest: string;
-    const removedBlocks = this.counter.popUnnecessaryWith(1);
-    console.log("removedBlocks:", removedBlocks);
-    for(let i = 0; i < limit; i++){
-      highest = this.counter.popHighest();
-      if(highest){
-        this.dict += letters[i]+'="'+highest+'",';
-        this.encoded += letters[i];
-      }else{
-        this.encoded += removedBlocks.shift();
-      }
-    }
-    console.log("output: ", this.dict, this.encoded);
-  }*/
+  private mergeDictAndEncoded(): string{
+    //-const script = this.dictStr + this.encoded;
+    return "Dict={" +this.dictStr+ "};\n"+
+           "Dados={" +this.encoded+ "};";
+  }
 }
-    ///-------se array de contagem vazio: retorna
-    ///this.counter.popUnnecessaryWith(x);
-
-
-/*toStringOld(): string{////delete on 0.5
-  let values = "";
-
-  for(let i = 0; i < limit; i++){
-    segmentsString += letters[i]+',';
-  }
-  if(limit > 0){
-    segmentsString = 
-      "local "+segmentsString.slice(0, -1)+//removendo o último caractere
-      "="+values.slice(0, -1)+"\n";
-  }
-}*/
-
-  /*private imageToStringMatrix(){
-    const blockMatrix = this.imageToBlockMatrix();
-    return matrixString.slice(0, -1);//removendo o último caractere
-  }*/
-
-/*toString(): string{
-  if(!this.segmentIsClosed) this.mergeSegment(andMergeBlock);
-
-  const numToLetter = this.getNumberToLetter();
-
-  ///fazer var na classe pra guardar o "local a,b,c=123,21,2"
-  let segmentsString = "";
-  for(const segment of this.segments){
-    this.segmentNumToLetter(segment, numToLetter);
-    segmentsString += '{'+segment.toString()+'},';
-  }
-  return segmentsString;
-}*/
 
 /*private getNumberToLetter(): DictNumToString{
   const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -132,8 +93,4 @@ export class Encoder{
   }
   return repeatedDict;
 }
-private segmentNumToLetter(segment: NumOrString[], dict: DictNumToString){
-  for(let i = 0; i < segment.length; i++){
-    if( dict[ segment[i] as number ] ) segment[i] = dict[ segment[i] as number ];
-  }
-}*/
+*/
