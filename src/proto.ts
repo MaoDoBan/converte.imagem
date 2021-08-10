@@ -49,7 +49,6 @@ function convertePixelPraBloco({r,g,b,opacity})
 //data struct do bitmap: [r,g,b,opacity,...]
 
 /*
-Nivel=2 --nível de compressão: 1. array hex qt_block; 2. array base36 qt_block; 3. dict pra string; 4. dois dict, compressão dupla da string
 Dict={--salvar em hex
   a="3de",...
 }

@@ -10,6 +10,5 @@ Comando pra rodar .ts na pasta colorPalette:
 deno run --allow-read --allow-write --allow-net --unstable src/colorPalette/.ts
 
 Comando pra rodar o app.ts:
-deno run --allow-read --allow-write --allow-net src/app.ts
-deno run --allow-read --allow-write --allow-net src/proto.ts
+deno run --allow-read --allow-write --allow-net src/app.ts img.png
 deno run src/test.ts
