@@ -9,16 +9,25 @@ export class Counter{ ////need rework
     this.countedBlocks = this.initializeCountedBlocks();
   }
 
+  get length(): number{
+    return Object.keys(this.countedBlocks).length;
+  }
+
   countBlocks(): number{
+    let lengthIf0Dict = 0;
     for(const blockImage of this.blockImages){
       for(let i = 6; i < blockImage.length; i++){
         const block = blockImage[i] as string;
         this.countedBlocks[block].ct++;
-        this.countedBlocks[block].size += block.length;
+        this.countedBlocks[block].size += block.length+1;
+        lengthIf0Dict += block.length+1;
       }
     }
-    //-console.log("Blocos contados:",this.countedBlocks);
-    return Object.keys(this.countedBlocks).length;
+    console.log("Tamanho sem encodar: "+lengthIf0Dict);
+    //console.log("Blocos contados:",this.countedBlocks);
+    const qtUniques = this.length;
+    this.popUnnecessaryWith(1);
+    return qtUniques;
   }
 
   private initializeCountedBlocks(): CountMap{
@@ -45,16 +54,11 @@ export class Counter{ ////need rework
     return max.hex;
   }
 
-  popUnnecessaryWith(keyLength: number): string[]{
-    const removedBlocks: string[] = [];
+  popUnnecessaryWith(keyLength: number){
     let sizeIfEncoded: number;
     for(const block in this.countedBlocks){
       sizeIfEncoded = keyLength+4+block.length + keyLength*this.countedBlocks[block].ct;
-      if(sizeIfEncoded >= this.countedBlocks[block].size){
-        removedBlocks.push(block);
-        delete this.countedBlocks[block];
-      }
+      if(sizeIfEncoded >= this.countedBlocks[block].size) delete this.countedBlocks[block];
     }
-    return removedBlocks;
   }
 }
