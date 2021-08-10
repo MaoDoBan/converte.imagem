@@ -17,7 +17,7 @@ export class Counter{ ////need rework
         this.countedBlocks[block].size += block.length;
       }
     }
-    console.log("Blocos contados:",this.countedBlocks);
+    //-console.log("Blocos contados:",this.countedBlocks);
     return Object.keys(this.countedBlocks).length;
   }
 
@@ -33,7 +33,7 @@ export class Counter{ ////need rework
 
   popHighest(): string{
     const max = {hex: "", size: 0};
-    let actualSize;
+    let actualSize: number;
     for(const block in this.countedBlocks){
       actualSize = this.countedBlocks[block].size;
       if(actualSize > max.size){
@@ -43,5 +43,18 @@ export class Counter{ ////need rework
     }
     delete this.countedBlocks[max.hex];
     return max.hex;
+  }
+
+  popUnnecessaryWith(keyLength: number): string[]{
+    const removedBlocks: string[] = [];
+    let sizeIfEncoded: number;
+    for(const block in this.countedBlocks){
+      sizeIfEncoded = keyLength+4+block.length + keyLength*this.countedBlocks[block].ct;
+      if(sizeIfEncoded >= this.countedBlocks[block].size){
+        removedBlocks.push(block);
+        delete this.countedBlocks[block];
+      }
+    }
+    return removedBlocks;
   }
 }
