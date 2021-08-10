@@ -1,5 +1,4 @@
-import { NumOrString } from "../../interfaces/Types.ts";
-type CountMap = { [block: string]: number };
+import { NumOrString, CountMap } from "../../interfaces/Types.ts";
 
 export class Counter{ ////need rework
   private countedBlocks: CountMap;
@@ -10,46 +9,39 @@ export class Counter{ ////need rework
     this.countedBlocks = this.initializeCountedBlocks();
   }
 
-  countBlocks(){
+  countBlocks(): number{
     for(const blockImage of this.blockImages){
       for(let i = 6; i < blockImage.length; i++){
         const block = blockImage[i] as string;
-        this.countedBlocks[ block ] += block.length;
+        this.countedBlocks[block].ct++;
+        this.countedBlocks[block].size += block.length;
       }
     }
     console.log("Blocos contados:",this.countedBlocks);
+    return Object.keys(this.countedBlocks).length;
   }
 
   private initializeCountedBlocks(): CountMap{
     const initialCountedBlocks: CountMap = {};
     for(const blockImage of this.blockImages){
       for(let i = 6; i < blockImage.length; i++){
-        initialCountedBlocks[ blockImage[i] ] = 0;
+        initialCountedBlocks[ blockImage[i] ] = {ct: 0, size: 0};
       }
     }
     return initialCountedBlocks;
   }
+
+  popHighest(): string{
+    const max = {hex: "", size: 0};
+    let actualSize;
+    for(const block in this.countedBlocks){
+      actualSize = this.countedBlocks[block].size;
+      if(actualSize > max.size){
+        max.hex = block;
+        max.size = actualSize;
+      }
+    }
+    delete this.countedBlocks[max.hex];
+    return max.hex;
+  }
 }
-
-
-/*increment(...numbers: number[]){
-  for(const num of numbers){
-    if(num < 10 || num > this.limit){
-      continue;
-    }
-    this.counter[num] += 2;
-    if(num >= 100) this.counter[num]++;//se 100+ vai ocupar 3 caracteres
-  }
-}*/
-
-/*popHighestToHex(): string{////
-  let max = {num: -1, count: 0};
-  for(let i = 10; i < this.counter.length; i++){
-    if(this.counter[i] && this.counter[i] > max.count){
-      max.num = i;
-      max.count = this.counter[i];
-    }
-  }
-  delete this.counter[max.num];
-  return max.num;
-}*/
