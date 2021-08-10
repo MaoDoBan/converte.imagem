@@ -8,9 +8,9 @@ export class Encoder{
   private encoded: string;
 
   constructor(
-    convertedMatrix: NumOrString[][]
+    private blockImages: NumOrString[][]
   ){
-    this.counter = new Counter(convertedMatrix);
+    this.counter = new Counter(this.blockImages);
     this.dict = "";
     this.encoded = "";
   }
@@ -37,9 +37,17 @@ export class Encoder{
   }
   private assemble(limit: number){///, keyLength: number
     const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let highest: string;
+    const removedBlocks = this.counter.popUnnecessaryWith(1);
+    console.log("removedBlocks:", removedBlocks);
     for(let i = 0; i < limit; i++){
-      this.dict += letters[i]+'="'+this.counter.popHighest()+'",';
-      this.encoded += letters[i];
+      highest = this.counter.popHighest();
+      if(highest){
+        this.dict += letters[i]+'="'+highest+'",';
+        this.encoded += letters[i];
+      }else{
+        this.encoded += removedBlocks.shift();
+      }
     }
     console.log("output: ", this.dict, this.encoded);
   }
@@ -49,6 +57,7 @@ export class Encoder{
   }*/
 }
     ///-------se array de contagem vazio: retorna
+    ///this.counter.popUnnecessaryWith(x);
 
 
 /*toStringOld(): string{////delete on 0.5
