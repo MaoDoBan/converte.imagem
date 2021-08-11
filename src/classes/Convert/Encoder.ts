@@ -78,7 +78,7 @@ export class Encoder{
   private mergeDictAndEncoded(): string{
     //-const script = this.dictStr + this.encoded;
     return "Dict={" +this.dictStr+ "};\n"+
-           "Dados={" +this.encoded+ "};";
+           "Dados={{" +this.encoded+ "}};";///pra 0.7 suportar múltiplas imagens
   }
 }
 
