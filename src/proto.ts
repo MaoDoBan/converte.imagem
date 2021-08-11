@@ -1,30 +1,5 @@
-import { Node } from "./classes/Tree/Node.ts";
-// import { Color } from "./classes/Color.ts";
-
-
-//const Arvere = new Node();
-console.log(await Node.populateAllNodes());
-//console.log(Node.growTree(32));
-
-const past = Date.now();
-// console.log("buscando 0 0 0: ",Node.sequentialSearch([0,0,0]));
-// console.log("buscando perto 0 0 0: ",Node.sequentialSearch([0,0,0], "near"));
-// console.log("buscando 128 128 128: ",Node.sequentialSearch([128,128,128]));
-
-
-console.log("Demorou ms: "+(Date.now()-past));
-
-
-// const qt = 50;
-// const stringDistances = Color.populateDistances( Object.values(palette) as Color[], qt );
-// const qtDistances = qt+"\n\n" + Color.listHowManyDistances( Object.values(palette) as Color[] );
-
-
-
-
 /*
 ::todo:
-ler rgbPaletteSorted.json
 converter pra lista duplamente encadeada
 
 ler raw image
@@ -49,9 +24,7 @@ function convertePixelPraBloco({r,g,b,opacity})
 //data struct do bitmap: [r,g,b,opacity,...]
 
 /*
-Dict={--salvar em hex
-  a="3de",...
-}
+Dict={a="3de",...};
 Dados={
   {"x","y",0,0,0,100,"abfasdfasgSKFFAMSOFImisisjdfisaADFAd,fa"},//vírgula indica que não ta no dict
   {}...
@@ -67,19 +40,6 @@ DadosOld3={
   {"x","y",100,0,0,0,c,"27a",c,"44eb","11_"}
   --direçãoX, direçãoY, largura, x, y, z, ...[qt blockId data | qt ar]
   --aceitaria gerar várias imagens, cada uma com eixo, largura, coo diferentes
-};
-
-local a,b,c=10,11,{19f}  --no {19f} seria {qt}
-DadosOld2 = {
-  "x",
-  {0,0,0,2,1,0,"a",2,15,1,3,"a",3,"a",0},
-  {"a",1,"a",2,1,0,"a",2,15,1,3,"a",3,"a",0}
-};
-
-DadosOld = {
-  "x",
-  {0,0,0,2,1,0,"a",2,15,1,3,"a",3,"a",0},
-  {"a",1,"a",2,1,0,"a",2,15,1,3,"a",3,"a",0}
 };
 */
 
