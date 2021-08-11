@@ -77,7 +77,7 @@ local clique = function(event)
   });
 end
 
-clique({x = 1, y = 2, z = 1});
+clique({x = 1, y = 8, z = 2});
 
 
 -- lembrar de colocar os métodos do MW
