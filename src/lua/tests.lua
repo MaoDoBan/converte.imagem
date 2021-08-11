@@ -1,5 +1,14 @@
 print("oi vc ai, me da um dinheiro ai")
 
+local vari = {avel = 11}
+local function bah(v)
+  v.avel = 22;
+end
+bah(vari)
+
+print(vari["avel"])
+
+
 -- local bah = {1,2,3};
 -- local a,b,c = unpack(bah);
 
@@ -31,7 +40,7 @@ print("oi vc ai, me da um dinheiro ai")
 -- end
 -- ScriptSupportEvent:registerEvent('Player.PlayAction', func_event)
 
-local palavras = {"amor", "flor", "estrela", "árvores", "abacaxi"};
+-- local palavras = {"amor", "flor", "estrela", "árvores", "abacaxi"};
 -- for i=1, 20 do
 --   local rnum = math.random(#palavras);
 --   print(palavras[rnum]);
@@ -51,8 +60,8 @@ local palavras = {"amor", "flor", "estrela", "árvores", "abacaxi"};
 -- local qtp = #palavras
 -- print(qtp)
 
-function clonar(org)
-  return {table.unpack(org)}
-end
-local p2 = clonar(palavras)
-print(#p2, #palavras)
+-- function clonar(org)
+--   return {table.unpack(org)}
+-- end
+-- local p2 = clonar(palavras)
+-- print(#p2, #palavras)
