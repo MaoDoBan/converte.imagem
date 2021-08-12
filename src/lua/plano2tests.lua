@@ -2,6 +2,8 @@ Dict={a="tf",b="eg",c="f7",d="ho",e="17n",f="j6",g="i4",h="2eb",i="wc",j="so",k=
 Dados={{"-y","x",0,64,0,64,",u_h;1g_h;1e_;2sj;1e_;2sj;1c_abeba;1a_abeba;1a_abebga;18_abebga;16_agbebia;14_agbebia;14_agbebka;12_agbebka;10_agb;203bia;10_agb;203bia,k_e,a_agba,4_abgfa,i_e,a_agba,4_abgfa,g_h,4_agb;3kz,vxa,e_h,4_agb;3kz,vxa,e_ag;2sjkbhdlh,4_ag;2sjkbhdlh,4_akb;203obe;1odd;203,4_akb;203obe;1odd;4dfij;1lv;2h8bf;22la,ijd;2sjij;1lv;2h8bf;22la,ijd;36rk;16waobf;22lc;1az;36rk;16waobf;22lc;1azabhpagbf;1odc;1azabhpagbf;1odc;1azagjh;4gcbnlc;1azagjh;4gcbnlc;1azc,2_a;1osbepbfbf,vxcmdc,2_a;1osbepbfbf,vxcmdc,6_ak;16w;2vgcibnbf,hpc,ijdc,8_ak;16w;2vgcibnbf,hpc,ijdc,8_cba;4gccibf,iqnde,a_cba;4gccibf,iqnde,c_cja;4ukbnbfc,i_cja;4ukbnbfc,i_cbgja;3nwbfjfda,g_cbgja;3nwbfjfda,i_aijoaib;1bmde,i_aijoaib;1bmde,m_apbfldcda,k_apbfldcda,o_ab;2h8jflcma,o_ab;2h8jflcma,s_;1lvbgbnldcma,s_;1lvbgbnldcma;10_;3kzdmdc;10_;3kzdmdc;1i_amc;1i_amc;1k_cmc;1k_cmc;1k_c,ijdc;1k_c,ijdc;1m_e;1m_e,6_"}};
 
 
+--- Release Candidate to 0.6 ---
+
 local controle = {};
 local ctGerados = 0;
 
@@ -9,14 +11,12 @@ local function pegaCoordenada()
   local x, y, z = controle.coo.x, controle.coo.y, controle.coo.z;
   local i1, i2 = controle.eixo1.i, controle.eixo2.i;
 
-  ---controle.eixo1.anda = controle.eixo1.anda + 1;
   controle.coo[i1] = controle.coo[i1] + controle.eixo1.soma;
-  if(controle.coo[i1] == controle.eixo1.limite) then---controle.eixo1.anda >= controle.eixo1.limite
-    ---controle.eixo1.anda = 0;
+  if(controle.coo[i1] == controle.eixo1.limite) then
     controle.coo[i1] = controle.coo[i1] - controle.eixo1.comprimento * controle.eixo1.soma;
     controle.coo[i2] = controle.coo[i2] + controle.eixo2.soma;
   end
-  print("                              eixos: "..controle.coo[i1].." "..controle.coo[i2]);
+  ---print("                              eixos: "..controle.coo[i1].." "..controle.coo[i2]);
 
   return x, y, z;
 end
@@ -43,17 +43,18 @@ end
 
 local function converteEGera(infoBase36)
   local bloco = converteBase36PraBlocos(infoBase36);
-  local x, y, z; local log = true;
+  local x, y, z; --local log = true;
 
-  --print("Qt gerar:",bloco.qt);
   for _ = 1, bloco.qt do
     x, y, z = pegaCoordenada();
-    --if(bloco.id ~= 0) then Block:setBlockAll(x, y, z, bloco.id, bloco.data); end
-    ctGerados = ctGerados + 1;
-    if(log) then
-      print("GeraBloco: "..x.." "..y.." "..z.." "..bloco.id.." "..bloco.data.." "..ctGerados);
-      --log = false;
+    if(bloco.id ~= 0) then
+      Block:setBlockAll(x, y, z, bloco.id, bloco.data);
+      ctGerados = ctGerados + 1;
     end
+    -- if(log) then
+    --   print("GeraBloco: "..x.." "..y.." "..z.." "..bloco.id.." "..bloco.data.." "..ctGerados);
+    --   --log = false;
+    -- end
   end
 end
 
@@ -94,26 +95,28 @@ local function geraImagem(origem)
     eixo1 = { i = indiceE1, soma = somaE1, comprimento = comprimentoNoEixo1 },---, anda = 0
     eixo2 = { i = indiceE2, soma = somaE2 }
   };
-  controle.eixo1.limite = controle.coo[controle.eixo1.i] + comprimentoNoEixo1 * controle.eixo1.soma;
-  print("LIMITE: ",controle.eixo1.limite, controle.coo[controle.eixo1.i], limiteEixo1, controle.eixo1.soma);
+  controle.coo[indiceE1] = controle.coo[indiceE1] - 1; --normalizando coordenada do eixo1 pra incluir o bloco de origem
+  controle.eixo1.limite = controle.coo[indiceE1] + comprimentoNoEixo1 * controle.eixo1.soma;
+  print("LIMITE EIXO1:",controle.eixo1.limite, controle.coo[indiceE1], comprimentoNoEixo1, controle.eixo1.soma);
   -- print(origem.x, origem.y, origem.z);
   -- print(controle.coo.x, controle.coo.y, controle.coo.z);
 
   for i = 1, #dadosCompactos do
     avaliaCaractere( dadosCompactos:sub(i, i) );
-    if ctGerados > 200 then return; end ---- ----
+    --if ctGerados > 200 then return; end ---- ----
   end
 end
 
 local function clique(evento)
-  -- local _,ferramenta = Player:getCurToolID(evento.eventobjid);
-  -- if ferramenta ~= 11569 then --cajado de madeira simples
-  --   return;
-  -- end
+  local _,ferramenta = Player:getCurToolID(evento.eventobjid);
+  if ferramenta ~= 11569 then --cajado de madeira simples
+    return;
+  end
 
-  --Chat:sendSystemMsg("Gerando...");
+  Chat:sendSystemMsg("Gerando...");
   geraImagem({x=evento.x, y=evento.y, z=evento.z});
+  Chat:sendSystemMsg("Terminei! Gerados "..ctGerados.." blocos!");
 end
 
---ScriptSupportEvent:registerEvent('Player.ClickBlock', clique);
-clique({x=0, y=8, z=0});
+-- clique({x=0, y=8, z=0});
+ScriptSupportEvent:registerEvent('Player.ClickBlock', clique);
