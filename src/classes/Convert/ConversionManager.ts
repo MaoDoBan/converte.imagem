@@ -3,7 +3,7 @@ import { Node } from "../Tree/Node.ts";
 import { ImageToBlocks } from "./ImageToBlocks.ts";
 import { NumOrString } from "../../interfaces/Types.ts";
 import { Encoder } from "./Encoder.ts";
-type ConvertParameters = {fileName: string, lAxis?: string, cAxis?: string, x?: number, y?: number, z?: number};
+type ConvertParameters = {fileName: string, lineAxis?: string, columnAxis?: string, x?: number, y?: number, z?: number};
 
 export class ConversionManager{
   private allConverted: NumOrString[][];
@@ -13,19 +13,20 @@ export class ConversionManager{
     this.allConverted = [];
   }
 
-  async convert({fileName, lAxis = '"x"', cAxis = '"y"', x = 0, y = 0, z = 0}: ConvertParameters){
+  async convert({fileName, lineAxis = '"x"', columnAxis = '"-y"', x = 0, y = 0, z = 0}: ConvertParameters){
     ///, direction: {x: string, y: string} //aceitar posição relativa do player
     /// isso só precisa alterar o xy do output lua
     const past = Date.now();
 
     const rawImage = await Deno.readFile("io/"+fileName);
     const image = await Image.decode(rawImage);
-    if(image.height > 256 || image.width > 256) return console.log("ERRO: dimensão passou do limite de 256!");
+    if(image.height > 256 || image.width > 256) return console.log("ERRO: dimensão passou do limite de 256!");///deixar sem limite em certas circunstâncias
 
-    const converted = (new ImageToBlocks(image)).result; ////TODO ERRO FIX: trocar de lugar o x e y de acordo com o resultado escolhido daqui
+    const converted = (new ImageToBlocks(image, lineAxis, columnAxis)).result;
     console.log("Comprimento do resultado escolhido:", converted.length, "\nConverted:", converted);
 
-    converted.unshift(lAxis, cAxis, x, y, z, image.width);//add extra information
+    const axis1Limit = converted[0] == lineAxis ? y+image.width : y+image.height;
+    converted.unshift(x, y+axis1Limit, z, axis1Limit);//add extra information
     this.allConverted.push(converted);
     console.log("Demorou ms: "+(Date.now()-past));
   }
