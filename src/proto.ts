@@ -72,3 +72,6 @@ DadosOld3={
 ////lua: gerar de 5000 em 5000 || escrever no "chat" de 1k em 1k
 ////lua: teleportar o player pra certo local, esperar, continuar gerando (pra imagens gigantes)
 
+//===== pra 0.7 ========//
+////lua: clicar em 2 locais pra escolher pra onde vai gerar a imagem (só funcionar em 1 plano "reto" de 2 eixos, com 3 eixos gerar erro no chat)
+////o imput de user aceitar qualquer "quina" como ponto de origem pra imagem, o que facilitaria a feature acima
