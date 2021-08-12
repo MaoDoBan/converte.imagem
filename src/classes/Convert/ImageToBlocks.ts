@@ -6,7 +6,9 @@ export class ImageToBlocks{
   private pixelConverter: PixelsToBlocks;
   
   constructor(
-    readonly image: Image
+    private image: Image,
+    private lineAxis: string,
+    private columnAxis: string
   ){
     this.pixelConverter = new PixelsToBlocks();
   }
@@ -17,11 +19,14 @@ export class ImageToBlocks{
 
   convert(): NumOrString[]{
     const convertedByLines   = this.pixelLinesToBlocks();
-    //console.log("Resultado linhas:", convertedByLines);
     const convertedByColumns = this.pixelColumnsToMatrix(convertedByLines.length);
-    //console.log("Resultado colunas:", convertedByColumns);
 
-    return convertedByLines.length <= convertedByColumns.length ? convertedByLines : convertedByColumns;//convertedBlocks;
+    if(convertedByLines.length <= convertedByColumns.length){
+      convertedByLines.unshift(this.lineAxis, this.columnAxis);
+      return convertedByLines;
+    }
+    convertedByColumns.unshift(this.columnAxis, this.lineAxis);
+    return convertedByColumns;
   }
 
   pixelLinesToBlocks(): NumOrString[]{
