@@ -1,12 +1,39 @@
 print("oi vc ai, me da um dinheiro ai")
 
-local vari = {avel = 11}
-local function bah(v)
-  v.avel = 22;
-end
-bah(vari)
 
-print(vari["avel"])
+local funcs = {
+  xy      = function() print("XY") end,
+  ["-xz"] = function() print("-XZ") end,
+  ["yx"]  = function() print("YX") end
+}
+local aquela = {
+  fu = funcs["xy"]
+}
+local essaNao = {
+  fu = funcs["-xz"]
+}
+aquela.fu(); essaNao.fu();
+
+
+-- local c = {num = 10};
+-- local function clique(evento)
+--   local _,ferramenta = Player:getCurToolID(evento.eventobjid);
+--   if ferramenta ~= 11569 then --cajado de madeira simples
+--     return;
+--   end
+--   Chat:sendSystemMsg("Testando... "..c.num);
+--   c.num = c.num + 1;
+-- end
+-- ScriptSupportEvent:registerEvent('Player.ClickBlock', clique);
+
+
+-- local vari = {avel = 11}
+-- local function bah(v)
+--   v.avel = 22;
+--   return 111, 222, 333;
+-- end
+-- local a,b,c = bah(vari)
+-- print(vari["avel"], a,b,c)
 
 
 -- local bah = {1,2,3};
