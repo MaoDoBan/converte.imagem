@@ -1,5 +1,5 @@
-Dict={a="tf",b="eg",c="f7",d="ho",e="17n",f="j6",g="i4",h="2eb",i="wc",j="so",k="1ak",l="1a5",m="wr",n="xe",o="230",p="424"};
-Dados={{0,64,0,64,"-y","x",",u_h;1g_h;1e_;2sj;1e_;2sj;1c_abeba;1a_abeba;1a_abebga;18_abebga;16_agbebia;14_agbebia;14_agbebka;12_agbebka;10_agb;203bia;10_agb;203bia,k_e,a_agba,4_abgfa,i_e,a_agba,4_abgfa,g_h,4_agb;3kz,vxa,e_h,4_agb;3kz,vxa,e_ag;2sjkbhdlh,4_ag;2sjkbhdlh,4_akb;203obe;1odd;203,4_akb;203obe;1odd;4dfij;1lv;2h8bf;22la,ijd;2sjij;1lv;2h8bf;22la,ijd;36rk;16waobf;22lc;1az;36rk;16waobf;22lc;1azabhpagbf;1odc;1azabhpagbf;1odc;1azagjh;4gcbnlc;1azagjh;4gcbnlc;1azc,2_a;1osbepbfbf,vxcmdc,2_a;1osbepbfbf,vxcmdc,6_ak;16w;2vgcibnbf,hpc,ijdc,8_ak;16w;2vgcibnbf,hpc,ijdc,8_cba;4gccibf,iqnde,a_cba;4gccibf,iqnde,c_cja;4ukbnbfc,i_cja;4ukbnbfc,i_cbgja;3nwbfjfda,g_cbgja;3nwbfjfda,i_aijoaib;1bmde,i_aijoaib;1bmde,m_apbfldcda,k_apbfldcda,o_ab;2h8jflcma,o_ab;2h8jflcma,s_;1lvbgbnldcma,s_;1lvbgbnldcma;10_;3kzdmdc;10_;3kzdmdc;1i_amc;1i_amc;1k_cmc;1k_cmc;1k_c,ijdc;1k_c,ijdc;1m_e;1m_e,6_"}};
+Dict={a="tf",b="eg",c="f7",d="ho",e="17n",f="j6",g="i4",h="2eb",i="wc",j="so",k="1ak",l="1a5",m="wr",n="xe",o="230",p="424",q="1az",r="4_",s="203",t="2sj",u="ij",v="10_",w="3kz",x="1od",y="1lv",z="2h8",A="22l",B="16w",C="4gc",D="1k_",E="i_",F="vx"};
+Dados={{0,64,0,64,"-y","x",",u_h;1g_h;1e_t;1e_t;1c_abeba;1a_abeba;1a_abebga;18_abebga;16_agbebia;14_agbebia;14_agbebka;12_agbebkavagbsbiavagbsbia,k_e,a_agbarabgfaEe,a_agbarabgfa,g_hragbwFa,e_hragbwFa,e_agtkbhdlhragtkbhdlhrakbsobexdsrakbsobexd;4dfijyzbfAaudtijyzbfAaud;36rkBaobfAcq;36rkBaobfAcqabhpagbfxcqabhpagbfxcqagjhCbnlcqagjhCbnlcqc,2_a;1osbepbfbfFcmdc,2_a;1osbepbfbfFcmdc,6_akB;2vgcibnbf,hpcudc,8_akB;2vgcibnbf,hpcudc,8_cbaCcibf,iqnde,a_cbaCcibf,iqnde,c_cja;4ukbnbfcEcja;4ukbnbfcEcbgja;3nwbfjfda,g_cbgja;3nwbfjfdaEaijoaib;1bmdeEaijoaib;1bmde,m_apbfldcda,k_apbfldcda,o_abzjflcma,o_abzjflcma,s_ybgbnldcma,s_ybgbnldcmavwdmdcvwdmdc;1i_amc;1i_amcDcmcDcmcDcudcDcudc;1m_e;1m_e,6_"}};
 
 
 --- Version 0.6 ---
@@ -45,10 +45,11 @@ local function converteEGera(infoBase36)
   local bloco = converteBase36PraBlocos(infoBase36);
   local x, y, z; --local log = true;
 
+  print("Gerando:", bloco.qt, bloco.id, bloco.data);
   for _ = 1, bloco.qt do
     x, y, z = pegaCoordenada();
     if(bloco.id ~= 0) then
-      Block:setBlockAll(x, y, z, bloco.id, bloco.data);
+      --Block:setBlockAll(x, y, z, bloco.id, bloco.data);
       ctGerados = ctGerados + 1;
     end
     -- if(log) then
@@ -108,15 +109,15 @@ local function geraImagem(origem)
 end
 
 local function clique(evento)
-  local _,ferramenta = Player:getCurToolID(evento.eventobjid);
-  if ferramenta ~= 11569 then --cajado de madeira simples
-    return;
-  end
+  -- local _,ferramenta = Player:getCurToolID(evento.eventobjid);
+  -- if ferramenta ~= 11569 then --cajado de madeira simples
+  --   return;
+  -- end
 
-  Chat:sendSystemMsg("Gerando...");
+  -- Chat:sendSystemMsg("Gerando...");
   geraImagem({x=evento.x, y=evento.y, z=evento.z});
-  Chat:sendSystemMsg("Terminei! Gerados "..ctGerados.." blocos!");
+  -- Chat:sendSystemMsg("Terminei! Gerados "..ctGerados.." blocos!");
 end
 
--- clique({x=0, y=8, z=0});
-ScriptSupportEvent:registerEvent('Player.ClickBlock', clique);
+clique({x=1, y=10, z=1});
+-- ScriptSupportEvent:registerEvent('Player.ClickBlock', clique);
