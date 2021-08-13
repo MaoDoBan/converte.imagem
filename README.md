@@ -1,6 +1,6 @@
 Sistema encomendado pela NandaPlay, que vai converter uma imagem em um script .lua para gerar uma pixel-art dentro do Mini World.
 
-Versão 0.6.1 "funcional"
+Versão 0.6.3 "funcional"
 
 Executar os .lua:
 lua src/lua/.lua
