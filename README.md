@@ -10,5 +10,5 @@ Comando pra rodar .ts na pasta colorPalette:
 deno run --allow-read --allow-write --allow-net --unstable src/colorPalette/.ts
 
 #AQUI NANDA:
-Comando para converter a imagem pra script lua:
+Comando para converter a imagem pra script lua:\n
 `deno run --allow-read --allow-write --allow-net src/app.ts img.png`
