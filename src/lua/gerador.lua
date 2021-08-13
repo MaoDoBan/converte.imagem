@@ -1,7 +1,9 @@
---- Version 0.6 ---
+--- Version 0.6.3 ---
 
 local controle = {};
+local ctTodos = 0;
 local ctGerados = 0;
+local ctPausa = 0;
 
 local function pegaCoordenada()
   local x, y, z = controle.coo.x, controle.coo.y, controle.coo.z;
@@ -20,15 +22,22 @@ Convertidos = {};
 local function converteBase36PraBlocos(base36)
   if(Convertidos[base36]) then return Convertidos[base36]; end
 
-  local qtBlocos, idBloco, metadata = 0, 0, 0;
-  if(base36:sub(-1,-1) == "_") then
-    qtBlocos = tonumber( base36:sub(1,-2), 36 );--base36 pra base10
+  local qtBlocos, idBloco, metadata = 1, 0, 0;
+  if( base36:sub(-1,-1) == "_" ) then
+    if(#base36 ~= 1) then qtBlocos = tonumber( base36:sub(1,-2), 36 ); end--base36 pra base10
   else
     local base10 = tonumber(base36,36);--base36 pra base10
     local hex = string.format( "%x", base10 );--base10 pra base16
-    qtBlocos = tonumber( hex:sub(1,-3), 16 );--base16 pra base10
-    idBloco  = tonumber( hex:sub(-2,-2), 16 ) + 667;
-    metadata = tonumber( hex:sub(-1,-1), 16 );
+    if(#hex == 1) then
+      idBloco  = 667;
+      metadata = tonumber( hex, 16 );
+    else
+      if(#hex ~= 2) then
+        qtBlocos = tonumber( hex:sub(1,-3), 16 );--base16 pra base10
+      end
+      idBloco  = tonumber( hex:sub(-2,-2), 16 ) + 667;
+      metadata = tonumber( hex:sub(-1,-1), 16 );
+    end
   end
 
   local convertido = {qt=qtBlocos, id=idBloco, data=metadata};
@@ -41,10 +50,16 @@ local function converteEGera(infoBase36)
   local x, y, z;
 
   for _ = 1, bloco.qt do
+    ctTodos = ctTodos + 1;
     x, y, z = pegaCoordenada();
     if(bloco.id ~= 0) then
       Block:setBlockAll(x, y, z, bloco.id, bloco.data);
       ctGerados = ctGerados + 1;
+      ctPausa = ctPausa + 1;
+      if(ctPausa == 300) then
+        ctPausa = 0;
+        threadpool:wait(0.1);
+      end
     end
   end
 end
@@ -86,9 +101,9 @@ local function geraImagem(origem)
     eixo1 = { i = indiceE1, soma = somaE1, comprimento = comprimentoNoEixo1 },---, anda = 0
     eixo2 = { i = indiceE2, soma = somaE2 }
   };
+  if(controle.coo.y > 255) then controle.coo.y = 255; end --ALTURA MAX 255 DO MUNDO
   controle.coo[indiceE1] = controle.coo[indiceE1] - 1; --normalizando coordenada do eixo1 pra incluir o bloco de origem
   controle.eixo1.limite = controle.coo[indiceE1] + comprimentoNoEixo1 * controle.eixo1.soma;
-  print("LIMITE EIXO1:",controle.eixo1.limite, controle.coo[indiceE1], comprimentoNoEixo1, controle.eixo1.soma);
 
   for i = 1, #dadosCompactos do
     avaliaCaractere( dadosCompactos:sub(i, i) );
@@ -103,7 +118,7 @@ local function clique(evento)
 
   Chat:sendSystemMsg("Gerando...");
   geraImagem({x=evento.x, y=evento.y, z=evento.z});
-  Chat:sendSystemMsg("Terminei! Gerados "..ctGerados.." blocos!");
+  Chat:sendSystemMsg("Terminei! Gerados "..ctGerados.." blocos! Total com ar: "..ctTodos);
 end
 
 ScriptSupportEvent:registerEvent('Player.ClickBlock', clique);
