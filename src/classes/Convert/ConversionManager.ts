@@ -4,6 +4,7 @@ import { ImageToBlocks } from "./ImageToBlocks.ts";
 import { NumOrString } from "../../interfaces/Types.ts";
 import { Encoder } from "./Encoder.ts";
 type ConvertParameters = {fileName: string, lineAxis?: string, columnAxis?: string, x?: number, y?: number, z?: number};
+//import { writeJson } from "https://deno.land/x/jsonfile@1.0.0/mod.ts";
 
 export class ConversionManager{
   private allConverted: NumOrString[][];
@@ -28,6 +29,9 @@ export class ConversionManager{
     const axis1Limit = converted[0] == lineAxis ? y+image.width : y+image.height;
     converted.unshift(x, y+axis1Limit, z, axis1Limit);//add extra information
     this.allConverted.push(converted);
+
+    //await writeJson("io/Nanda dados brutos.json", converted);
+  
     console.log("Demorou ms: "+(Date.now()-past));
   }
 
