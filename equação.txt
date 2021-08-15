@@ -1,0 +1,68 @@
+a1: quantidade de keys com 1 caractere
+a2: qt de keys com 2 caracteres...
+an: qt de keys com n caracteres...
+
+m: máximo de caracteres de tamanho de uma key
+
+
+
+i: nível da iteração do loop
+a: quantidade de keys reservadas pra i-1
+
+
+
+
+
+D: dicionário
+C: string com dados comprimidos
+
+
+v: valor único
+vr: vezes que o valor se repete
+vt: quantos caracteres o valor v ocupa
+TV: 1: número de caracteres extras que o v ocupa em C sem passar pelo D
+
+t: tamanho total que o v ocupa em C sem passar por D
+t = vr * (vt + TV)
+
+u: tamanho total que o v ocupa em C passando por D (comprimindo)
+
+
+a: qt de caracteres na chave
+f(a) = 
+
+
+A1: 53 possibilidades pro primeiro caractere de uma key
+An: 63       / /      pros demais caracteres de uma key
+
+x: número de valores únicos (subtraídos os que não vale a pena pra a = 1:  x = f(1) )
+y: quantidade de caracteres máxima da maior key necessária
+z: 
+
+=======================================================================
+
+
+input: conjunto de elementos que podem se repetir
+unics: conjunto de elementos não repetidos (cada elemento tem: string dele mesmo, quantas vezes se repete)
+
+f(x,y,z) pra cada elemento de um conjunto de elementos únicos
+x é a quantidade de vezes que o elemento se repete no conjunto input
+y é o tamanho do elemento, quantos caracteres ele ocupa
+z é o tamanho da key que vai representar o elemento
+
+
+==================================
+r: repetição do dado
+l: largura da string do dado
+u: 1   basicamente a largura do caractere que identifica o dado não comprimido
+
+b: tamanho que o dado ocupa sem comprimir, bruto
+b = r * ( l + u )
+
+k: largura da chave (key)
+
+c: tamanho que o dado ocupa comprimido (vezes que a chave é usada + tamanho da chave e valor no dicionário)
+c = r * k + ( k + 4 + l )
+
+objetivo é encontrar o maior k onde:
+c < b

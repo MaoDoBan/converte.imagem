@@ -1,3 +1,19 @@
+/* planos de encode
+
+entrada = ["12d","ss","22","ss","22","ss"]
+
+
+únicosOrdenadosPorRepetição: { [count: string]: string }
+
+organizar arrays por quantidade de caracteres da key que poderia remover da contagem
+
+
+
+*/
+
+
+
+
 /*
 ::todo:
 converter pra lista duplamente encadeada
@@ -47,6 +63,8 @@ DadosOld3={
 ///fazer um teste de gerar cor aleatória, umas 10'000'000, e rodar 2 buscas (a informada e a linear),
 ///  e pensar em como salvar esses dados (de tempo total, quantia de nós vistos até "finalizar a busca" e de distância (poderia ter um
 ///  contador de acertos da informada e uma lista dos erros com a distância inf e lin))
+
+/// 3 buscas: sequencial; de caminho partindo do [centro, ou 6 "sub-centros", ou 7, 8 ou 9]; binária [com 1 nó raiz ou 2 raiz]
 
 ///ou se em vez de ter 1 nó inicial de busca (128,128,128), pegar uns 6 aleatórios e partir do mais próximo
 ///poderia ter um híbrido, onde a 7ª opção é o incial central
