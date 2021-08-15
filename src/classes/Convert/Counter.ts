@@ -1,4 +1,5 @@
-import { NumOrString, CountMap } from "../../interfaces/Types.ts";
+import { NumOrString } from "../../interfaces/Types.ts";
+type CountMap = { [block: string]: { ct: number, size: number } };
 
 export class Counter{ ////need rework
   private countedBlocks: CountMap;
