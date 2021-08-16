@@ -11,8 +11,6 @@ a: quantidade de keys reservadas pra i-1
 
 
 
-
-
 D: dicionário
 C: string com dados comprimidos
 
@@ -52,6 +50,7 @@ z é o tamanho da key que vai representar o elemento
 
 
 ==================================
+
 r: repetição do dado
 l: largura da string do dado
 u: 1   basicamente a largura do caractere que identifica o dado não comprimido
@@ -66,3 +65,35 @@ c = r * k + ( k + 4 + l )
 
 objetivo é encontrar o maior k onde:
 c < b
+
+k < ( r(l+1) -4 -l ) / (r + 1)
+
+k = Math.ceil(k-1) /// precisa
+
+https://cdn.discordapp.com/attachments/411901568275709952/876592979555541022/20210815_192711.jpg
+//- function f(r, l){ console.log( ( r*(l+1) - 4 - l ) / (r + 1) ); }
+
+se k for menor que 1: descarta
+
+:=============================:
+
+tendo x dados únicos que valem a pena comprimir, encontre a quantidade q de caracteres máxima de uma chave:
+x = 53 * 63 ^ n
+q = n + 1
+
+x = 53 * 63^n
+63^n = x / 53
+n = log(x/53) base 63
+
+q = n + 1
+q = ( log(x/53) base 63 ) + 1
+
+function getBaseLog(x, y) {
+  return Math.log(y) / Math.log(x);
+}
+function bah(x){
+  console.log( getBaseLog(63, x/53) + 1 );
+}
+
+:=========================================:
+
