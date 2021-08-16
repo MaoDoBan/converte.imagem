@@ -1,3 +1,5 @@
+// nada que valha a pena aqui até o ======= //
+
 a1: quantidade de keys com 1 caractere
 a2: qt de keys com 2 caracteres...
 an: qt de keys com n caracteres...
@@ -38,7 +40,7 @@ y: quantidade de caracteres máxima da maior key necessária
 z: 
 
 =======================================================================
-
+//nada que valha a pena aqui//
 
 input: conjunto de elementos que podem se repetir
 unics: conjunto de elementos não repetidos (cada elemento tem: string dele mesmo, quantas vezes se repete)
@@ -49,7 +51,7 @@ y é o tamanho do elemento, quantos caracteres ele ocupa
 z é o tamanho da key que vai representar o elemento
 
 
-==================================
+:==================================:
 
 r: repetição do dado
 l: largura da string do dado
@@ -66,7 +68,11 @@ c = r * k + ( k + 4 + l )
 objetivo é encontrar o maior k onde:
 c < b
 
-k < ( r(l+1) -4 -l ) / (r + 1)
+r * k +  k + 4 + l < r * ( l + u )
+kr + k < r(l + u) - l - 4
+k(r + 1) < r(l + u) - l - 4
+
+k < ( r(l+1) - l - 4 ) / (r + 1)
 
 k = Math.ceil(k-1) /// precisa
 
@@ -88,12 +94,26 @@ n = log(x/53) base 63
 q = n + 1
 q = ( log(x/53) base 63 ) + 1
 
-function getBaseLog(x, y) {
+function getBaseLog(x, y){//x elevado a quantos resulta em y?
   return Math.log(y) / Math.log(x);
 }
-function bah(x){
-  console.log( getBaseLog(63, x/53) + 1 );
+function maxKeyLength(x){
+  let max = getBaseLog(63, x/53) + 1;
+  return Math.ceil(max);
 }
 
 :=========================================:
+
+tendo x dados únicos que valem a pena comprimir, limite k = 2 de tamanho max da chace, encontre a quantidade q de chaves k = 1:
+x <= 53 - n + 63n
+q = 53 - n
+
+n: quantos caracteres reservar pra keys de k=2
+
+x <= 53 - n + 63n
+53 - n + 63n >= x
+62n >= x - 53
+n >= (x - 53) / 62
+
+:=============================:
 
