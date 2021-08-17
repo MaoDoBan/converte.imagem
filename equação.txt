@@ -50,6 +50,12 @@ x é a quantidade de vezes que o elemento se repete no conjunto input
 y é o tamanho do elemento, quantos caracteres ele ocupa
 z é o tamanho da key que vai representar o elemento
 
+:======================:
+//nada pra ver aqui
+
+[dado1, dado2, dado3, ..., dadon]: m: matriz de entrada
+  
+k: largura máxima da chave onde o dado ainda vale a pena ser comprimido
 
 :==================================:
 
@@ -65,7 +71,7 @@ k: largura da chave (key)
 c: tamanho que o dado ocupa comprimido (vezes que a chave é usada + tamanho da chave e valor no dicionário)
 c = r * k + ( k + 4 + l )
 
-objetivo é encontrar o maior k onde:
+objetivo é encontrar para cada dado o maior k onde:
 c < b
 
 r * k +  k + 4 + l < r * ( l + u )
@@ -115,5 +121,25 @@ x <= 53 - n + 63n
 62n >= x - 53
 n >= (x - 53) / 62
 
-:=============================:
+:================================================:
+
+r: repetição do dado
+l: largura da string do dado
+1: basicamente a largura do caractere que identifica o dado não comprimido
+Quanto o dado ocupa sem ser comprimido:
+s = r * ( l + 1 )
+
+k: largura da string da key
+d: quantos caracteres "extras" precisa no dicionário, vai ser 4 para os caracteres "comuns" e 8 se forem acentuados
+Tamanho que o dado ocupa comprimido (vezes que a chave é usada + tamanho da chave e valor no dicionário):
+c = r * k + k + l + d
+
+!Encontrar para cada dado, com k=n, o e com quanto se economiza comprimindo o dado:
+e = s - c
+
+e = r(l + 1) - k(r + 1) + l + d
+e = rl + r - rk + k + l + d
+e = r(l + 1 - k) + k + l + d
+
+:==============================================:
 
