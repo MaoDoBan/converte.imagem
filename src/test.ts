@@ -1,64 +1,25 @@
-import { readJsonSync } from "https://deno.land/x/jsonfile@1.0.0/mod.ts";
+export function sortBy<T>( array: Array<T>, selector: ((el: T) => number) ): Array<T>{
+  const ret = Array.from(array);
 
-let ct = [0,0,0];
-function logTempo(passado: number, indice: number, txt: string){
-  let diferença = Date.now() - passado;
-  ct[indice] += diferença;
-  //console.log("Tempo pra "+txt+": "+ ( diferença ) +"ms");
-  return Date.now();
+  return ret.sort((a, b) => {
+    const selectedA = selector(a);
+    const selectedB = selector(b);
+
+    if (selectedA > selectedB) return 1;
+    if (selectedA < selectedB) return -1;
+    return 0;
+  });
 }
-type Count = { [dado: string]: number };
-
-let passado = Date.now();
-const dadosBrutos = readJsonSync("io/Nanda_dados_brutos.json") as string[];
-//passado = logTempo(passado, "ler arquivo");
-
-let dadu;
-function contar(){
-  const contador1: Count = {};
-  for(const dado of dadosBrutos){
-    if( contador1[dado] ){
-      contador1[dado]++;
-      continue;
-    }
-    contador1[dado] = 1;
-  }
-  passado = logTempo(passado, 0, "contar1");
-  //console.log(contador1);//return;
-
-  const contador2: Count = {};
-  for(const dado of dadosBrutos){
-    dadu = dado;
-    if( !contador2[dadu] ){
-      contador2[dadu] = 1;
-      continue;
-    }
-    contador2[dadu]++;
-  }
-  passado = logTempo(passado, 1, "contar1");
-
-  // const contador2: Count = {};
-  // for(const dado of dadosBrutos){
-  //   contador2[dado] = contador2[dado] ? ++contador2[dado] : 1;
-  // }
-  // passado = logTempo(passado, 1, "contar2   ");
-  // //console.log(contador2);
-
-  // const contador3: Count = {};
-  // for(const dado of dadosBrutos){
-  //   contador3[dado] = 0;
-  // }
-  // for(const dado of dadosBrutos){
-  //   contador3[dado]++;
-  // }
-  // passado = logTempo(passado, 2, "contar3      ");
-  //console.log(contador3);
-}
-//contar();
-for (let i = 0; i < 100000; i++){
-  contar();
-}
-console.log(ct);
+const people = [
+  { name: 'Vii', age: 54 },
+  { name: 'Tah', age: 23 },
+  { name: 'Anna', age: 34 },
+  { name: 'Kim', age: 42 },
+  { name: 'John', age: 23 },
+  { name: 'Ju', age: 54 },
+]
+const sortedByAge = sortBy(people, it => it.age);
+console.log(sortedByAge);
 
 
 // console.log(Deno.args[0]);
