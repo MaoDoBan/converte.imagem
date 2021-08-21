@@ -11,6 +11,7 @@ export class WorthManager{
     this.baseNotWorth = [];
     this.cataloged = [[], [], [], [], [], []] as Block[][];
     this.catalogBlocks(countedBlocks);
+    this.sortBySavedSise();
 
     console.log("| cataloged:");
     for(let i = 1; i < this.cataloged.length; i++){
@@ -37,15 +38,16 @@ export class WorthManager{
     }
   }
 
-  // private sortByWorth(){
-  //   array.sort((block1, block2) => {
-  //     worth1 = ;
-  //     worth2 = ;
-  //     if(worth1 > worth2) return 1;
-  //     if(worth1 < worth2) return -1;
-  //     return 0;
-  //   });
-  // }
+  private sortBySavedSise(){
+    for(let i = 1; i < this.cataloged.length; i++){
+      this.cataloged[i].sort((block1, block2) => {
+        const [saved1, saved2] = [block1.partialSavedSizeWith(i), block2.partialSavedSizeWith(i)];
+        if(saved1 > saved2) return 1;
+        if(saved1 < saved2) return -1;
+        return 0;
+      });
+    }
+  }
 }
 
   // private initialFilterWorth(){
