@@ -1,25 +1,30 @@
-export function sortBy<T>( array: Array<T>, selector: ((el: T) => number) ): Array<T>{
-  const ret = Array.from(array);
-
-  return ret.sort((a, b) => {
-    const selectedA = selector(a);
-    const selectedB = selector(b);
-
-    if (selectedA > selectedB) return 1;
-    if (selectedA < selectedB) return -1;
-    return 0;
-  });
+class multiDict{
+  [index: number, second: number]: string;
 }
-const people = [
-  { name: 'Vii', age: 54 },
-  { name: 'Tah', age: 23 },
-  { name: 'Anna', age: 34 },
-  { name: 'Kim', age: 42 },
-  { name: 'John', age: 23 },
-  { name: 'Ju', age: 54 },
-]
-const sortedByAge = sortBy(people, it => it.age);
-console.log(sortedByAge);
+
+
+// function sortBy<T>( array: Array<T>, selector: ((el: T) => number) ): Array<T>{
+//   const ret = Array.from(array);
+
+//   return ret.sort((a, b) => {
+//     const selectedA = selector(a);
+//     const selectedB = selector(b);
+
+//     if (selectedA > selectedB) return 1;
+//     if (selectedA < selectedB) return -1;
+//     return 0;
+//   });
+// }
+// const people = [
+//   { name: 'Vii', age: 54 },
+//   { name: 'Tah', age: 23 },
+//   { name: 'Anna', age: 34 },
+//   { name: 'Kim', age: 42 },
+//   { name: 'John', age: 23 },
+//   { name: 'Ju', age: 54 },
+// ]
+// const sortedByAge = sortBy(people, it => it.age);
+// console.log(sortedByAge);
 
 
 // console.log(Deno.args[0]);
