@@ -1,4 +1,5 @@
 import { NumOrString } from "../../interfaces/Types.ts";
+import { Block } from "./Block.ts";
 import { CountBlocks } from "./CountBlocks.ts";
 import { WorthManager } from "./WorthManager.ts";
 
@@ -14,7 +15,11 @@ export class Encoder{
   }
 
   get result(): string{
-    const worthControl = new WorthManager( this.blocks.counted );
+    const contedBlocks = this.blocks.counted;
+    console.log("| qt contedBlocks:",contedBlocks.length);
+    Block.arrayToString(contedBlocks);
+
+    const worthControl = new WorthManager( contedBlocks );
 
     // if(countedBlocks.length <= letters.length){
     //   ;
