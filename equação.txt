@@ -150,6 +150,33 @@ e = rl + r - (rk + k + l + d)
 e = rl + r - rk - k - l - d
 e = r(l - k + 1) - l - k - d
 
+::::::::::::::::::::::::::::::::::::::
+
+Quanto o dado ocupa sem ser comprimido:
+s = r * ( l + 1 )
+
+Tamanho que o dado ocupa comprimido, só na string output sem o dict (vezes que a chave é usada):
+c = r * k
+
+p: espaço "parcial" economizado apenas na string output, sem contar o dict
+p = s - c
+
+p = rl + r - rk
+p = r(l + 1 - k)
+
+d: o tamanho que o dado a ser comprimido ocupa no dict, tem 3 equações diferentes pra calcular d
+d1 = l + 3      //usando íncide da table como array, bom pra k=2+
+d2 = k + l + 4  //usando a-z A-Z _ pra k1 e +0-9 pra k2+
+d3 = k + l + 8  //usando 200+ caracteres "indiscriminadamente" pra kn
+
+e: economia total
+e = p - d
+
+//isolar r
+e = r(l + 1 - k) - k - l - D
+r(...) = e + k + l + D
+r = (e + k + l + D) / (l + 1 - k)
+
 :==============================================:
 //paint plans
 
@@ -157,12 +184,3 @@ https://cdn.discordapp.com/attachments/208380070383976448/877290517547847700/unk
 https://cdn.discordapp.com/attachments/208380070383976448/877376325013356644/unknown.png
 
 https://cdn.discordapp.com/attachments/411901568275709952/877650515494850620/unknown.png
-
-:==============================================:
-
-t: tamanho comprimido no Dados
-
-t = r(l - k + 1) - l - k;
-
-e: total de economia de espaço ao comprimir o block
-e = t - d
