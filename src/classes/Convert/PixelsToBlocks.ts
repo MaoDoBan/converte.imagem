@@ -1,5 +1,5 @@
-import { Color } from "../Tree/Color.ts";
-import { Node } from "../Tree/Node.ts";
+import { Color } from "./SearchTreeColorToBlock/Color.ts";
+import { Node } from "./SearchTreeColorToBlock/Node.ts";
 import { Serializer } from "./Serializer.ts";
 import { NumOrString } from "../../interfaces/Types.ts";
 

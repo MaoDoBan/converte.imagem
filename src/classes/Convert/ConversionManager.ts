@@ -1,8 +1,8 @@
 import { Image } from "https://deno.land/x/imagescript@1.2.9/mod.ts";
-import { Node } from "../Tree/Node.ts";
+import { Node } from "./SearchTreeColorToBlock/Node.ts";
 import { ImageToBlocks } from "./ImageToBlocks.ts";
 import { NumOrString } from "../../interfaces/Types.ts";
-import { Encoder } from "./Encoder.ts";
+import { Encoder } from "../Encode/Encoder.ts";
 type ConvertParameters = {fileName: string, lineAxis?: string, columnAxis?: string, x?: number, y?: number, z?: number};
 //import { writeJson } from "https://deno.land/x/jsonfile@1.0.0/mod.ts";
 
@@ -42,6 +42,8 @@ export class ConversionManager{
     //console.log(encoded);
     console.log("Demorou ms: "+(Date.now()-past));
     console.log("Tamanho do script lua:",encoded.length);
+    console.log("encoded:",encoded);
+    return;
 
     const generatorScript = await Deno.readTextFile("src/lua/gerador.lua");
     const result = encoded + "\n\n\n" + generatorScript;

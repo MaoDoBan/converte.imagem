@@ -1,13 +1,15 @@
 import { Block } from "./Block.ts";
-// type Branch = {
-//   keyLength: number,
-//   leaves: Block[],
-//   branches: Branch[]
-// };
+type Branch = {
+  keyLength: number,
+  dictSpace: 3 | 4 | 8,
+  key: string,
+  leaves: Block[],
+  branches: Branch[]
+};
 
 export class TrackBlocks{
   private raw: Block[];
-  private compress: Block[];
+  private compress: Branch[];
   private lengthEncoded: number;
 
   constructor(){
@@ -22,11 +24,6 @@ export class TrackBlocks{
     
     return this.lengthEncoded;
   }
-  // private countLength(array: Block[], ){
-  //   for(const block of array){
-  //     this.lengthEncoded += block;
-  //   }
-  // }
 
   addRaw(block: Block, ){
     this.raw.push(block);
