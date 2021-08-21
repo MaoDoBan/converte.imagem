@@ -1,26 +1,31 @@
 export class Block{
-  [property: string]: string | number;
-  public count: number;
-  private rawSizeAtribute: number;
-  private savedSises: number[];
+  private count: number;
+  private sizeWithoutCompressing: number;
+  private compressedSavedSizes: number[][];
 
   constructor(
     public base36: string
   ){
     this.count = 1;
-    this.rawSizeAtribute = 0;
-    this.savedSises = [];
+    this.sizeWithoutCompressing = 0;
+    this.compressedSavedSizes = [];
   }
 
   get rawSize(): number{
-    if(this.rawSizeAtribute > 0) return this.rawSizeAtribute;
-    this.rawSizeAtribute = this.count * (this.base36.length + 1);
+    if(this.sizeWithoutCompressing > 0) return this.sizeWithoutCompressing;
+    this.sizeWithoutCompressing = this.count * (this.base36.length + 1);
     return this.rawSize;
   }
+
+  moreOne(){
+    this.count++;
+  }
   
-  // savedSizeWith(keyLength: number): number{
-  //   if(this.savedSises[keyLength]) return this.savedSises[keyLength];
-  //   this.savedSises[keyLength] = r(this.base36.length - k + 1) - keyLength - this.base36.length - d;
-  //   return this.savedSises[keyLength];
-  // }
+  savedSizeWith(keyLength: number, dictSpace: 3 | 4 | 8): number{
+    if(this.compressedSavedSizes[keyLength])
+    if(dictSpace == 3){//índice da table do lua, pra k=2+
+      ;
+    }
+    return this.count * (this.base36.length - keyLength + 1) - this.base36.length  - keyLength - dictSpace;
+  }
 }
