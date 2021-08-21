@@ -158,3 +158,11 @@ https://cdn.discordapp.com/attachments/208380070383976448/877376325013356644/unk
 
 https://cdn.discordapp.com/attachments/411901568275709952/877650515494850620/unknown.png
 
+:==============================================:
+
+t: tamanho comprimido no Dados
+
+t = r(l - k + 1) - l - k;
+
+e: total de economia de espaço ao comprimir o block
+e = t - d
