@@ -1,20 +1,20 @@
 import { Block } from "./Block.ts";
 type Branch = {
   keyLength: number,
-  dictSpace: 3 | 4 | 8,
+  baseDictSpace: 3 | 4 | 8,
   key: string,
   leaves: Block[],
   branches: Branch[]
 };
 
 export class TrackBlocks{
-  private raw: Block[];
-  private compress: Branch[];
+  private toCompress: Branch[];
+  private uncompressed: string[];//base36 of blocks
   private lengthEncoded: number;
 
   constructor(){
-    this.raw = [];
-    this.compress = [];
+    this.toCompress = [];
+    this.uncompressed = [];
     this.lengthEncoded = -1;
   }
 
@@ -25,12 +25,12 @@ export class TrackBlocks{
     return this.lengthEncoded;
   }
 
-  addRaw(block: Block, ){
-    this.raw.push(block);
-    this.lengthEncoded += block;
-  }
-  addCompress(block: Block, ){
-    this.compress.push(block);
-    this.lengthEncoded += block;
-  }
+  // addRaw(block: Block, ){
+  //   this.raw.push(block);
+  //   this.lengthEncoded += block;
+  // }
+  // addCompress(block: Block, ){
+  //   this.compress.push(block);
+  //   this.lengthEncoded += block;
+  // }
 }
