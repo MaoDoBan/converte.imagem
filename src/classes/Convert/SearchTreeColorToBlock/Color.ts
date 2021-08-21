@@ -1,4 +1,4 @@
-import { Util } from "../Util.ts";
+import { Util } from "../../Util.ts";
 
 export class Color{
   readonly rgb: number[];
