@@ -1,21 +1,38 @@
 import { Block } from "./Block.ts";
+type UniqueBlocks = { [block: string]: true };
 type Branch = {
-  keyLength: number,
-  baseDictSpace: 3 | 4 | 8,
-  key: string,
-  leaves: Block[],
-  branches: Branch[]
+  keyLetter: string,
+  keyType: 0 | 3 | 4 | 8,
+  keySize: number,
+  childrenBranches: Branch[],
+  leaves: string[]
 };
+type KeyAndBlock = {key: string, base36: string};
+
+const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
 
 export class TrackBlocks{
-  private toCompress: Branch[];
-  private uncompressed: string[];//base36 of blocks
+  private uniquesListed: UniqueBlocks;
+  private rootKeyTree: Branch;
+  private queueNextBranches: Branch[];
+  private compressionArray: KeyAndBlock[];
   private lengthEncoded: number;
 
-  constructor(){
-    this.toCompress = [];
-    this.uncompressed = [];
-    this.lengthEncoded = -1;
+  constructor(
+    private uncompressed: string[],//base36 of blocks
+    private keyLengthLimit: number
+  ){
+    this.uniquesListed = {};
+    this.compressionArray = [];
+    this.lengthEncoded = 0;
+    this.rootKeyTree = {
+      keyLetter: "",
+      keyType: 0,
+      keySize: 0,
+      childrenBranches: [],
+      leaves: []
+    };
+    this.queueNextBranches = [this.rootKeyTree];
   }
 
   get length(): number{
@@ -25,12 +42,21 @@ export class TrackBlocks{
     return this.lengthEncoded;
   }
 
-  // addRaw(block: Block, ){
-  //   this.raw.push(block);
-  //   this.lengthEncoded += block;
-  // }
-  // addCompress(block: Block, ){
-  //   this.compress.push(block);
-  //   this.lengthEncoded += block;
-  // }
+  addToCompress(block: Block, ){
+    if( this.uniquesListed[block.base36] ) return false;
+    this.uniquesListed[block.base36] = true;
+
+    this.rootKeyTree.;
+
+    this.compressionArray.push({key: , base36: block.base36});
+    this.lengthEncoded += block.base36.length+1;
+  }
+
+  addUncompressed(block: Block){
+    if( this.uniquesListed[block.base36] ) return false;
+    this.uniquesListed[block.base36] = true;
+
+    this.uncompressed.push(block.base36);
+    this.lengthEncoded += block.rawSize;
+  }
 }
