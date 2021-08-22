@@ -11,16 +11,16 @@ export class WorthManager{
     this.baseNotWorth = [];
     this.cataloged = [[], [], [], [], [], []] as Block[][];
     this.catalogBlocks(countedBlocks);
-    this.sortBySavedSise();
+    this.sortBySavedSize();
 
     console.log("| cataloged:");
     for(let i = 1; i < this.cataloged.length; i++){
       console.log("i =",i,"  qt:",this.cataloged[i].length);
       Block.arrayToString(this.cataloged[i]);
     }
-    console.log("| qt baseNotWorth:",this.baseNotWorth.length,"  itens:",this.baseNotWorth);
+    //console.log("| qt baseNotWorth:",this.baseNotWorth.length,"  itens:",this.baseNotWorth);
 
-    this.best = {} as TrackBlocks;//tacar best: só k=1 apenas no compress do best
+    this.best = new TrackBlocks(this.baseNotWorth, 1);//tacar best: só k=1 apenas no compress do best
     this.actual = {} as TrackBlocks;
   }
 
@@ -38,7 +38,7 @@ export class WorthManager{
     }
   }
 
-  private sortBySavedSise(){
+  private sortBySavedSize(){
     for(let i = 1; i < this.cataloged.length; i++){
       this.cataloged[i].sort((block1, block2) => {
         const [saved1, saved2] = [block1.partialSavedSizeWith(i), block2.partialSavedSizeWith(i)];
@@ -49,13 +49,3 @@ export class WorthManager{
     }
   }
 }
-
-  // private initialFilterWorth(){
-  //   let rawSize: number;
-  //   let worths: number[] = [];
-  //   for(const block of this.array){
-  //     rawSize = ;
-  //     worths[1] = rawSize - block.count - block.base36.length - 9;
-  //     if()
-  //   }
-  // }
