@@ -3,8 +3,6 @@ import { Block } from "./Block.ts";
 import { CountBlocks } from "./CountBlocks.ts";
 import { WorthManager } from "./WorthManager.ts";
 
-const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
-
 export class Encoder{
   private blocks: CountBlocks;
 
