@@ -1,9 +1,7 @@
 import { Block } from "./Block.ts";
-import { TrackBlocks } from "./TrackBlocks.ts";
+import { TrackWorthKeys } from "./TrackWorthKeys.ts";
 
 export class WorthManager{
-  private best: TrackBlocks;
-  private actual: TrackBlocks;
   private cataloged: Block[][];
   private baseNotWorth: string[];
 
@@ -16,12 +14,9 @@ export class WorthManager{
     console.log("| cataloged:");
     for(let i = 1; i < this.cataloged.length; i++){
       console.log("i =",i,"  qt:",this.cataloged[i].length);
-      Block.arrayToString(this.cataloged[i]);
+      // Block.arrayToString(this.cataloged[i]);
     }
     //console.log("| qt baseNotWorth:",this.baseNotWorth.length,"  itens:",this.baseNotWorth);
-
-    this.best = new TrackBlocks(this.baseNotWorth, 1);//tacar best: só k=1 apenas no compress do best
-    this.actual = {} as TrackBlocks;
   }
 
   private catalogBlocks(blocks: Block[]){
@@ -47,5 +42,9 @@ export class WorthManager{
         return 0;
       });
     }
+  }
+
+  get result(): any{///
+    return new TrackWorthKeys(this.baseNotWorth, this.cataloged).result;
   }
 }
