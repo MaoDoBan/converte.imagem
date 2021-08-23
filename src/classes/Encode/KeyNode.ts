@@ -1,10 +1,10 @@
 //import { Util } from "../Util.ts";
 
-const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789 ♫↕‼¶§↑↓→←∟↔▲▼!#$%&()*/<>?@[]^`{|}~ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜø£Ø×ƒáíóúñÑ"+
-  "ªº¿®¬½¼¡«»░▒▓│┤ÁÂÀ©╣║╗╝¢¥┐└┴┬├─┼ãÃ╚╔╩╦╠═╬¤ðÐÊËÈıÍÎÏ┘┌█¦ÌÓßÔÒõÕµþÞÚÛÙýÝ¯±‗¾¶§÷°¨·¹³²´♥▄▀¸";
+//const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789 ♫↕‼¶§↑↓→←∟↔▲▼!#$%&()*/<>?@[]^`{|}~ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜø£Ø×ƒáíóúñÑ"+
+//  "ªº¿®¬½¼¡«»░▒▓│┤ÁÂÀ©╣║╗╝¢¥┐└┴┬├─┼ãÃ╚╔╩╦╠═╬¤ðÐÊËÈıÍÎÏ┘┌█¦ÌÓßÔÒõÕµþÞÚÛÙýÝ¯±‗¾¶§÷°¨·¹³²´♥▄▀¸";
+const letters = "abcdefgh";
 
 export class KeyNode{
-  public isLeave: boolean;
   public children: KeyNode[];
 
   constructor(
@@ -12,30 +12,25 @@ export class KeyNode{
     public keyType: 0 | 3 | 4 | 8,
     public keySize: number,
   ){
-    this.isLeave = true;
     this.children = [];
   }
 
-  static createRoot(): KeyNode{
-    const root = new KeyNode("", 0, 0);
-    root.addChildren(1);
-    return root;
+  get isLeave(): boolean{
+    return this.children.length == 0 ? true : false;
   }
 
   addChildren(keySize: number){
-    this.isLeave = false;
-
     let i = 0;
-    for(; i < 53; i++){
+    for(; i < 4; i++){/////53
       this.children.push( new KeyNode(letters[i], 4, keySize) );
     }
     for(; i < letters.length; i++){
       this.children.push( new KeyNode(letters[i], 8, keySize) );
     }
+    console.log("KeyNode addChildren():",this);///--
   }
 
-  toLeave(){
-    this.isLeave = true;
+  toLeave(){//private 
     this.children = [];
   }
 }
