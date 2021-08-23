@@ -1,55 +1,84 @@
 import { Block } from "./Block.ts";
 import { KeyNode } from "./KeyNode.ts";
+//type KeyAndBlock = {key: string, base36: string};
 type UniqueBlocks = { [block: string]: true };
-type KeyAndBlock = {key: string, base36: string};
+type SearchData = {
+  uniquesListed: UniqueBlocks,
+  lengthEncoded: number,
+  //compressionArray: KeyAndBlock[]
+  //unconpress: string[]
+};
 
 export class TrackWorthKeys{
-  private uniquesListed: UniqueBlocks;
   private rootKeyTree: KeyNode;
-  //private queueNextBranches: Branch[];
-  //private queueNextKeys: string[];
-  private compressionArray: KeyAndBlock[];
-  private lengthEncoded: number;
 
   constructor(
     private uncompressedBlocks: string[],//base36 of blocks
     private catalogedBlocks: Block[][]
   ){
-    this.uniquesListed = {};
-    //this.queueNextKeys = [];
-    this.compressionArray = [];
-    this.rootKeyTree = KeyNode.createRoot();
-
-    this.lengthEncoded = 0;
-    this.countUncompressedBlocks();
-  }
-
-  private countUncompressedBlocks(){
-    for(const block of this.uncompressedBlocks){
-      this.lengthEncoded += block.length+1;
-    }
+    this.rootKeyTree = new KeyNode("", 0, 0);
   }
 
   get result(): any{///
-    let foundLowest = false;
-    while(!foundLowest){
-      foundLowest = this.search();
+    const queueNodes = [[this.rootKeyTree], [], [], [], [], []];
+    let keyLength = 0;
+    let keyNodeToExpand: KeyNode;
+    let bestSearched = {lengthEncoded: 999999} as SearchData;
+    let actualSearch: SearchData;
+
+    while(true){
+      if(queueNodes[keyLength].length == 0){
+        keyLength++;
+        if(keyLength > 5) break;
+        continue;
+      }
+      keyNodeToExpand = queueNodes[keyLength].shift() as KeyNode;
+
+      keyNodeToExpand.addChildren(keyLength);
+
+      actualSearch = this.mountsDictionary();
+      if(actualSearch.lengthEncoded < bestSearched.lengthEncoded){
+        bestSearched = actualSearch;
+        if(keyLength < 5) queueNodes[keyLength+1].push(...keyNodeToExpand.children);
+        continue;
+      }
+      keyNodeToExpand.toLeave();
+      keyLength++;
     }
-    return ;
+
+    console.log("bestSearched:",bestSearched);//--
+    let uncompressedLength = 0;
+    for(const block of this.uncompressedBlocks){
+      uncompressedLength += block.length+1;
+    }
+    return uncompressedLength;///
   }
+  private mountsDictionary(): SearchData{
+    const search: SearchData = {
+      uniquesListed: {},
+      lengthEncoded: 0,
+      //compressionArray: KeyAndBlock[]
+      //unconpress: string[]
+    };
 
-  private search(): boolean{
+    const queueNodes = [[], [...this.rootKeyTree.children], [], [], [], []];
+    const path = [];
+    //let i: number;
+    //let blockCount: number;
+
     for(let keyLength = 1; keyLength <= 5; keyLength++){
+      //blockCount = 0;
       for(const block of this.catalogedBlocks[keyLength]){
-        // if( this.uniquesListed[block.base36] ) continue;
-        // this.uniquesListed[block.base36] = true;
-
+        //blockCount++;
         ;
       }
+      //if(blockCount <= queueNodes[keyLength].length) break;
     }
+    return search;
   }
+}
 
-  addToCompress(block: Block, ){
+  /*addToCompress(block: Block, ){
     if( this.uniquesListed[block.base36] ) return false;
     this.uniquesListed[block.base36] = true;
 
@@ -57,25 +86,12 @@ export class TrackWorthKeys{
 
     this.compressionArray.push({key: , base36: block.base36});
     this.lengthEncoded += block.base36.length+1;
-  }
+  }*/
 
-  addUncompressed(block: Block){
+  /*addUncompressed(block: Block){
     if( this.uniquesListed[block.base36] ) return false;
     this.uniquesListed[block.base36] = true;
 
     this.uncompressedBlocks.push(block.base36);
     this.lengthEncoded += block.rawSize;
-  }
-}
-
-//while(queueNextBranches.length){
-
-// for(let keyLength = 1; keyLength <= maxKeyLength; keyLength++){
-//   branch = queueNextBranches
-// }
-
-// get length(): number{
-//   if(this.lengthEncoded >= 0) return this.lengthEncoded;
-//   this.lengthEncoded = 0;
-//   return 0;
-// }
+  }*/
