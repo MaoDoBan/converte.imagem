@@ -1,25 +1,22 @@
 import { Block } from "./Block.ts";
 import { KeyNode } from "./KeyNode.ts";
-//type KeyAndBlock = {key: string, base36: string};
-type UniqueBlocks = { [block: string]: true };
+import { Key, EncodeDict } from "../../interfaces/Types.ts";
 type SearchData = {
-  uniquesListed: UniqueBlocks,
-  lengthEncoded: number,
-  //compressionArray: KeyAndBlock[]
-  //unconpress: string[]
+  uniquesMap: EncodeDict,
+  //countUniques: number,
+  lengthEncoded: number
 };
 
 export class TrackWorthKeys{
   private rootKeyTree: KeyNode;
 
   constructor(
-    private uncompressedBlocks: string[],//base36 of blocks
     private catalogedBlocks: Block[][]
   ){
-    this.rootKeyTree = new KeyNode("", 0, 0);
+    this.rootKeyTree = new KeyNode( {name: "", type: 4} );
   }
 
-  get result(): any{///
+  get result(): EncodeDict{
     const queueNodes = [[this.rootKeyTree], [], [], [], [], []];
     let keyLength = 0;
     let keyNodeToExpand: KeyNode;
@@ -33,65 +30,66 @@ export class TrackWorthKeys{
         continue;
       }
       keyNodeToExpand = queueNodes[keyLength].shift() as KeyNode;
-
-      keyNodeToExpand.addChildren(keyLength);
+      keyNodeToExpand.addChildren();
 
       actualSearch = this.mountsDictionary();
+      //console.log("actualSearch:", actualSearch);
+      console.log("actualSearch.lengthEncoded:", actualSearch.lengthEncoded);
       if(actualSearch.lengthEncoded < bestSearched.lengthEncoded){
         bestSearched = actualSearch;
-        if(keyLength < 5) queueNodes[keyLength+1].push(...keyNodeToExpand.children);
+        if( keyLength < 5 )///se não usou todas as chaves de keyLength
+          queueNodes[keyLength+1].push(...keyNodeToExpand.children);
         continue;
       }
       keyNodeToExpand.toLeave();
       keyLength++;
     }
 
-    console.log("bestSearched:",bestSearched);//--
-    let uncompressedLength = 0;
-    for(const block of this.uncompressedBlocks){
-      uncompressedLength += block.length+1;
-    }
-    return uncompressedLength;///
+    //--console.log("bestSearched:", bestSearched);
+    return bestSearched.uniquesMap;
   }
+
   private mountsDictionary(): SearchData{
-    const search: SearchData = {
-      uniquesListed: {},
-      lengthEncoded: 0,
-      //compressionArray: KeyAndBlock[]
-      //unconpress: string[]
-    };
-
     const queueNodes = [[], [...this.rootKeyTree.children], [], [], [], []];
-    const path = [];
-    //let i: number;
-    //let blockCount: number;
-
-    for(let keyLength = 1; keyLength <= 5; keyLength++){
-      //blockCount = 0;
-      for(const block of this.catalogedBlocks[keyLength]){
-        //blockCount++;
-        ;
+    function getKey(keyLength: number): Key{
+      let node = queueNodes[keyLength].shift();
+      while(node?.notLeave){
+        queueNodes[keyLength+1].push(...node.children);
+        node = queueNodes[keyLength].shift();
       }
-      //if(blockCount <= queueNodes[keyLength].length) break;
+      if(!node) return {name: "'end'", type: 4};
+
+      return node.key;
     }
+
+    const search: SearchData = {
+      uniquesMap: {},
+      //countUniques: 0,
+      lengthEncoded: 0
+    };
+    let key = {} as Key;
+    for(let keyLength = 1; keyLength <= 5; keyLength++){
+      for(const block of this.catalogedBlocks[keyLength]){
+        if(search.uniquesMap[block.base36]) continue;
+
+        key = getKey(keyLength);
+        if(key.name == "'end'") break;
+        search.uniquesMap[block.base36] = key;
+        //search.countUniques++;
+
+        search.lengthEncoded += block.partialSavedSizeWith(keyLength, key.type);
+        console.log("mapeando block:", block, key, "length encoded:", search.lengthEncoded);
+      }
+      if(key.name != "'end'") break;
+    }
+
+    for(const block of this.catalogedBlocks[1]){
+      if(search.uniquesMap[block.base36]) continue;
+      search.lengthEncoded += block.rawSize;
+    }
+    console.log("length encoded +notListed:", search.lengthEncoded);
+
+    //console.log("countKeys:", search.countUniques);
     return search;
   }
 }
-
-  /*addToCompress(block: Block, ){
-    if( this.uniquesListed[block.base36] ) return false;
-    this.uniquesListed[block.base36] = true;
-
-    this.rootKeyTree.;
-
-    this.compressionArray.push({key: , base36: block.base36});
-    this.lengthEncoded += block.base36.length+1;
-  }*/
-
-  /*addUncompressed(block: Block){
-    if( this.uniquesListed[block.base36] ) return false;
-    this.uniquesListed[block.base36] = true;
-
-    this.uncompressedBlocks.push(block.base36);
-    this.lengthEncoded += block.rawSize;
-  }*/
