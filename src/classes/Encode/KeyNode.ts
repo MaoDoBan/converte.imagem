@@ -1,55 +1,33 @@
-//import { Util } from "../Util.ts";
-
-//const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789 ♫↕‼¶§↑↓→←∟↔▲▼!#$%&()*/<>?@[]^`{|}~ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜø£Ø×ƒáíóúñÑ"+
-//  "ªº¿®¬½¼¡«»░▒▓│┤ÁÂÀ©╣║╗╝¢¥┐└┴┬├─┼ãÃ╚╔╩╦╠═╬¤ðÐÊËÈıÍÎÏ┘┌█¦ÌÓßÔÒõÕµþÞÚÛÙýÝ¯±‗¾¶§÷°¨·¹³²´♥▄▀¸";
-const letters = "abcdefgh";
+//import { Util } from "../Util.ts"; //ideia pra type 3, economizaria uns 2 ou 3 caracteres, nem vale tanto o esforço
+import { Key, KeyType, letters } from "../../interfaces/Types.ts";
 
 export class KeyNode{
   public children: KeyNode[];
 
   constructor(
-    public keyLetter: string,
-    public keyType: 0 | 3 | 4 | 8,
-    public keySize: number,
+    public key: Key,
   ){
     this.children = [];
   }
 
-  get isLeave(): boolean{
-    return this.children.length == 0 ? true : false;
+  get notLeave(): boolean{
+    return this.children.length == 0 ? false : true;
   }
 
-  addChildren(keySize: number){
+  addChildren(){
     let i = 0;
-    for(; i < 4; i++){/////53
-      this.children.push( new KeyNode(letters[i], 4, keySize) );
-    }
-    for(; i < letters.length; i++){
-      this.children.push( new KeyNode(letters[i], 8, keySize) );
-    }
-    console.log("KeyNode addChildren():",this);///--
+    for(; i < 53; i++){             this.addChild( this.key.name + letters[i], this.biggestType(4) ) }///53
+    for(; i < letters.length; i++){ this.addChild( this.key.name + letters[i], this.biggestType(8) ) }
+    this.print();
   }
+  private addChild(name: string, type: KeyType){ this.children.push( new KeyNode( {name, type} ) ); }
+  private biggestType(type: KeyType): KeyType{ return type > this.key.type ? type : this.key.type; }
 
-  toLeave(){//private 
+  toLeave(){
     this.children = [];
   }
+
+  print(){
+    console.log(`KeyNode {key: ${this.key.name}, type: ${this.key.type}}`);
+  }
 }
-
-// static createKeyTree(keyLengthLimit: number, maxKeys: number): Branch{
-//   //andar na key length [V]
-//   //andar na fila       
-//   //andar nas letras    
-//   //andar nos números pra k>1 
-
-//   const root = new Branch("", 0, 0, [], []);
-//   const queueNextBranches = [root];
-//   let branch: Branch;
-//   let countLeaves = 0;
-
-//   for(let keyLength = 1; keyLength <= keyLengthLimit; keyLength++){
-//     branch = queueNextBranches.shift() as Branch;
-
-//     ;
-
-//     if(queueNextBranches.length == 0) break;
-//   }
