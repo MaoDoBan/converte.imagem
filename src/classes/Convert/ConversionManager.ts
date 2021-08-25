@@ -23,7 +23,7 @@ export class ConversionManager{
     const image = await Image.decode(rawImage);
     if(image.height > 256 || image.width > 256) return console.log("ERRO: dimensão passou do limite de 256!");///deixar sem limite em certas circunstâncias
 
-    const converted = (new ImageToBlocks(image, lineAxis, columnAxis)).result;
+    const converted = ( new ImageToBlocks( image, lineAxis, columnAxis ) ).result;
     console.log("Comprimento do resultado escolhido:", converted.length);//, "\nConverted:", converted
 
     const axis1Limit = converted[0] == lineAxis ? y+image.width : y+image.height;
