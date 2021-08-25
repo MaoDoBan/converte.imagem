@@ -1,6 +1,6 @@
 import { Block } from "./Block.ts";
 import { KeyNode } from "./KeyNode.ts";
-import { Key, EncodeDict } from "../../interfaces/Types.ts";
+import { EncodeDict } from "../../interfaces/Types.ts";//Key, 
 type SearchData = {
   uniquesMap: EncodeDict,
   lengthSaved: number
@@ -12,7 +12,7 @@ export class TrackWorthKeys{
   constructor(
     private catalogedBlocks: Block[][]
   ){
-    this.rootKeyTree = new KeyNode( {name: "", type: 4} );
+    this.rootKeyTree = new KeyNode("");
   }
 
   get result(): EncodeDict{
@@ -46,13 +46,13 @@ export class TrackWorthKeys{
 
   private mountsDictionary(): SearchData{
     const queueNodes = [[], [...this.rootKeyTree.children], [], [], [], []];
-    function getKey(keyLength: number): Key{
+    function getKey(keyLength: number): string{
       let node = queueNodes[keyLength].shift();
       while(node?.notLeave){
         queueNodes[keyLength+1].push(...node.children);
         node = queueNodes[keyLength].shift();
       }
-      if(!node) return {name: "'end'", type: 4};
+      if(!node) return "'end'";
 
       return node.key;
     }
@@ -61,19 +61,19 @@ export class TrackWorthKeys{
       uniquesMap: {},
       lengthSaved: 0
     };
-    let key = {} as Key;
+    let key = "";
     for(let keyLength = 1; keyLength <= 5; keyLength++){
       for(const block of this.catalogedBlocks[keyLength]){
         if(search.uniquesMap[block.base36]) continue;
 
         key = getKey(keyLength);
-        if(key.name == "'end'") break;
+        if(key == "'end'") break;
         search.uniquesMap[block.base36] = key;
 
-        search.lengthSaved += block.savedSizeWith(keyLength, key.type);
+        search.lengthSaved += block.savedSizeWith(keyLength);
         //console.log("mapeando block:", block, key, "length encoded:", search.lengthSaved);
       }
-      if(key.name != "'end'") break;
+      if(key != "'end'") break;
     }
     return search;
   }

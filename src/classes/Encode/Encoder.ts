@@ -23,11 +23,11 @@ export class Encoder{
   private encodeDict(): string{
     let encoded = "";
     for(const block in this.keys){
-      if(this.keys[block].type == 4){
-        encoded += `${this.keys[block].name}="${block}",`;
-        continue;
-      }
-      encoded += `["${this.keys[block].name}"]="${block}",`;
+      // if(this.keys[block].type == 4){
+      //   encoded += `${this.keys[block].name}="${block}",`;
+      //   continue;
+      // }
+      encoded += `["${this.keys[block]}"]="${block}",`;
     }
     return encoded.slice(0, -1);//removendo o último caractere
   }
@@ -43,7 +43,7 @@ export class Encoder{
       for(let i = 6; i < blockImage.length; i++){
         block = blockImage[i] as string;
         if(this.keys[block]){
-          encoded += this.keys[block].name;
+          encoded += this.keys[block];
           continue;
         }
         encoded += specialChars[block.length] + block;

@@ -1,5 +1,3 @@
-import { KeyType } from "../../interfaces/Types.ts";
-
 export class Block{
   private count: number;
 
@@ -13,13 +11,8 @@ export class Block{
     this.count++;
   }
   
-  savedSizeWith(keyLength: number, type: KeyType = 4): number{
-    const dictSize = {
-      //3: 3,
-      4: 4 + keyLength,
-      8: 8 + keyLength
-    };
-    return this.count * (this.base36.length - keyLength + 1) - this.base36.length - dictSize[type];
+  savedSizeWith(keyLength: number): number{
+    return this.count * (this.base36.length - keyLength + 1) - this.base36.length - (8 + keyLength);
   }
 
   toString(): string{
