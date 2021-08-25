@@ -24,7 +24,7 @@ export class ConversionManager{
     if(image.height > 256 || image.width > 256) return console.log("ERRO: dimensão passou do limite de 256!");///deixar sem limite em certas circunstâncias
 
     const converted = ( new ImageToBlocks( image, lineAxis, columnAxis ) ).result;
-    console.log("Comprimento do resultado escolhido:", converted.length);//, "\nConverted:", converted
+    console.log("Comprimento do array resultado escolhido:", converted.length);//, "\nConverted:", converted
 
     const axis1Limit = converted[0] == lineAxis ? y+image.width : y+image.height;
     converted.unshift(x, y+axis1Limit, z, axis1Limit);//add extra information
@@ -41,9 +41,9 @@ export class ConversionManager{
     const encoded = (new Encoder(this.allConverted)).result;
     //console.log(encoded);
     console.log("Demorou ms: "+(Date.now()-past));
-    console.log("Tamanho do script lua:",encoded.length);
-    console.log("encoded:",encoded);
-    return;
+    console.log("Tamanho do lua dict + dados:", encoded.length);
+    //console.log("encoded:",encoded);
+    //return;
 
     const generatorScript = await Deno.readTextFile("src/lua/gerador.lua");
     const result = encoded + "\n\n\n" + generatorScript;
