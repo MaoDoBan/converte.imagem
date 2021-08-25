@@ -1,36 +1,29 @@
+import { KeyType } from "../../interfaces/Types.ts";
+
 export class Block{
   private count: number;
-  private partialSavedSizes: number[];
-  private sizeWithoutCompressing: number;
 
   constructor(
     public base36: string
   ){
     this.count = 1;
-    this.partialSavedSizes = [];
-    this.sizeWithoutCompressing = 0;
-  }
-
-  get rawSize(): number{
-    if(this.sizeWithoutCompressing > 0) return this.sizeWithoutCompressing;
-    this.sizeWithoutCompressing = this.count * (this.base36.length + 1);
-    return this.rawSize;
   }
 
   moreOne(){
     this.count++;
   }
   
-  partialSavedSizeWith(keyLength: number): number{
-    if(this.partialSavedSizes[keyLength]) return this.partialSavedSizes[keyLength];
-
-    const dictSizeMin = keyLength == 1 ? 3 : 4 + keyLength;
-    this.partialSavedSizes[keyLength] = this.count * (this.base36.length - keyLength + 1) - this.base36.length - dictSizeMin;
-    return this.partialSavedSizes[keyLength];
+  savedSizeWith(keyLength: number, type: KeyType = 4): number{
+    const dictSize = {
+      //3: 3,
+      4: 4 + keyLength,
+      8: 8 + keyLength
+    };
+    return this.count * (this.base36.length - keyLength + 1) - this.base36.length - dictSize[type];
   }
 
   toString(): string{
-    return `Block: {b36: ${this.base36}, ct: ${this.count}, saveds: [${this.partialSavedSizes.join()}], }`;
+    return `Block: {b36: ${this.base36}, ct: ${this.count} }`;
   }
   static arrayToString(array: Block[]){
     if(array == undefined) return;
