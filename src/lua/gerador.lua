@@ -1,4 +1,4 @@
---- Version 0.6.3 ---
+--- Version 0.7.1 ---
 
 local controle = {};
 local ctTodos = 0;
@@ -64,26 +64,28 @@ local function converteEGera(infoBase36)
   end
 end
 
-local simbolos = { ["."]=1, [","]=2, [";"]=3, [":"]=4, ["-"]=5, ["="]=6, ["+"]=7 };
+local simbolos = { ["."]=1, [","]=2, [";"]=3, [":"]=4, ["-"]=5, ["="]=6 };
 local function avaliaCaractere(caractere)
-  if controle.base36.lendo then
-    controle.base36.caracteresLidos = controle.base36.caracteresLidos .. caractere;
-    controle.base36.qt = controle.base36.qt - 1;
-    if controle.base36.qt == 0 then
-      controle.base36.lendo = false
-      converteEGera( controle.base36.caracteresLidos );
+  if controle.qtLerForaDoDict > 0 then --lendo os que não estão no dict
+    controle.filaCaracteres = controle.filaCaracteres .. caractere;
+    controle.qtLerForaDoDict = controle.qtLerForaDoDict - 1;
+    if controle.qtLerForaDoDict == 0 then
+      converteEGera( controle.filaCaracteres );
+      controle.filaCaracteres = "";
     end
     return;
   end
 
-  if simbolos[caractere] ~= nil then
-    controle.base36.lendo = true;
-    controle.base36.qt = simbolos[caractere];
-    controle.base36.caracteresLidos = "";
+  if simbolos[caractere] ~= nil then --lendo símbolo que indica os próximos que não estão no dict
+    controle.qtLerForaDoDict = simbolos[caractere];
     return;
   end
 
-  converteEGera( Dict[caractere] );
+  controle.filaCaracteres = controle.filaCaracteres .. caractere;
+  if Dict[controle.filaCaracteres] then
+    converteEGera( Dict[controle.filaCaracteres] );
+    controle.filaCaracteres = "";
+  end
 end
 
 local function pegaIndiceESoma(eixo)
@@ -96,7 +98,9 @@ local function geraImagem(origem)
   local indiceE1, somaE1 = pegaIndiceESoma(eixo1);
   local indiceE2, somaE2 = pegaIndiceESoma(eixo2);
   controle = {
-    base36 = { lendo = false, qt = 0, caracteresLidos = "" },
+    --base36 = { lendo = false, qt = 0, caracteresLidos = "" },
+    qtLerForaDoDict = 0,
+    filaCaracteres = "",
     coo = { x = origem.x+x, y = origem.y+y, z = origem.z+z },
     eixo1 = { i = indiceE1, soma = somaE1, comprimento = comprimentoNoEixo1 },---, anda = 0
     eixo2 = { i = indiceE2, soma = somaE2 }
