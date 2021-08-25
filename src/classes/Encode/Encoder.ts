@@ -13,11 +13,11 @@ export class Encoder{
 
   get result(): string{
     const contedBlocks = this.blocks.counted;
-    console.log("| qt contedBlocks:",contedBlocks.length);
-    // Block.arrayToString(contedBlocks);
+    console.log("| qt contedBlocks:", contedBlocks.length);
+    //-console.log("contedBlocks:", contedBlocks);
 
-    const worthKeysBlocks = new WorthManager( contedBlocks ).result;
-    console.log(worthKeysBlocks);
+    const encodeMap = new WorthManager( contedBlocks ).result;
+    console.log(">> encodeMap:", encodeMap);
 
     return "";
   }
