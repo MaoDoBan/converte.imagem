@@ -1,18 +1,27 @@
 print("oi vc ai, me da um dinheiro ai")
 
+--st = ";5d_hY¬U¹▼"--;2myÎX┐X;5c_nDUí_U;28qÎX▼→▼Â▼→▼³óX;2mg;5c_n‼YUYU;2myÏ;28q▼→óú▼X▼XóXÏ→▼;5c_n‼Yñ;38aÀ→▼;1uiÎ→│úÀXóX;5b_hk‼YU¹Àú▼ýÏ→ÏåÏ;5b_nqUYU¹À→ó³ÎúÏåÎ";
+--especiais: ".,;:-="
+--uteis: " !#$%&()*/<>?@[]^`{|}~+"
+-- ‼♫↕¶§↑↓→←∟↔▲▼ºÇªüñÑéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜø£Ø×ƒáíóú¿®¬½¼¡«»░▒▓│┤ÁÂÀ©╣║╗╝¢¥┐└╔╩╦╠═╬╚ãÃ┴┬├─┼¤ðÐÊËÈıÍÎÏ┘┌█¦ÌÓßÔÒõÕµþÞÚÛÙýÝ
+st = "¯±‗¾¶§÷°¨·¹³²´♥▄▀¸"
+for i = 1, #st do
+  print( st:sub(i, i) );
+end
 
-local funcs = {
-  xy      = function() print("XY") end,
-  ["-xz"] = function() print("-XZ") end,
-  ["yx"]  = function() print("YX") end
-}
-local aquela = {
-  fu = funcs["xy"]
-}
-local essaNao = {
-  fu = funcs["-xz"]
-}
-aquela.fu(); essaNao.fu();
+
+-- local funcs = {
+--   xy      = function() print("XY") end,
+--   ["-xz"] = function() print("-XZ") end,
+--   ["yx"]  = function() print("YX") end
+-- }
+-- local aquela = {
+--   fu = funcs["xy"]
+-- }
+-- local essaNao = {
+--   fu = funcs["-xz"]
+-- }
+-- aquela.fu(); essaNao.fu();
 
 
 -- local c = {num = 10};
